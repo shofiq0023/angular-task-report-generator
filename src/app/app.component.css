@@ -1,0 +1,10 @@
+hr {
+    border-top: 1px solid #c3c3c3;
+}
+
+.submit-div {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+}
