@@ -122,8 +122,7 @@ export class AppComponent {
     public getProjects(): void {
         let projectsJsonStr = this.storageService.getItem(this.PROJECT_KEY);
         try {
-            let projects: Project[] = JSON.parse(projectsJsonStr);
-            this.projects = projects;
+            this.projects = JSON.parse(projectsJsonStr);
         } catch (error) {
             console.error("Error in getting projects from storage");
             this.addEmptyProject();
