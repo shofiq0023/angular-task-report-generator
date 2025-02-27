@@ -2,6 +2,7 @@ import {Component, Input} from '@angular/core';
 import {Project} from '../../../models/project';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {DatePipe} from '@angular/common';
+import {LocalStorageService} from '../../../services/local-storage.service';
 
 @Component({
   selector: 'app-preview-modal',
@@ -12,13 +13,13 @@ import {DatePipe} from '@angular/common';
   styleUrl: './preview-modal.component.css'
 })
 export class PreviewModalComponent {
+    private USERNAME_KEY = 'username';
     @Input() projects! : Project[];
 
-    public constructor(public activeModal: NgbActiveModal) {}
+    public constructor(public activeModal: NgbActiveModal, private storageService: LocalStorageService) {}
 
     public getUsername() : string {
-        // TODO: Get username from localStorage
-        return "Shofiqul Islam";
+        return this.storageService.getItem(this.USERNAME_KEY);
     }
 
     public getCurrentDate() {
@@ -34,6 +35,7 @@ export class PreviewModalComponent {
     }
 
     public generateMultipleImageAndDownloadAsZip(): void {
-
+        // TODO: Generate multiple image
+        // TODO: Download generated images as ZIP file
     }
 }
