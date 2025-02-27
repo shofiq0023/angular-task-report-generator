@@ -6,28 +6,36 @@ import {Task} from './models/task';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {PreviewModalComponent} from './components/modal/preview-modal/preview-modal.component';
 import {FormsModule} from '@angular/forms';
+import {LocalStorageService} from './services/local-storage.service';
+import {DatePipe} from '@angular/common';
 
 @Component({
     selector: 'app-root',
-    imports: [FontAwesomeModule, FormsModule],
+    imports: [FontAwesomeModule, FormsModule, DatePipe],
     templateUrl: './app.component.html',
     styleUrl: './app.component.css'
 })
 export class AppComponent {
+    // Const
+    private PROJECT_KEY: string = 'projects';
+    private USERNAME_KEY: string = 'username';
+
     // FontAwesome icon definition
     public addIcon = faPlus;
     public minusIcon = faMinus;
 
     // Data
+    public username: string = '';
     public projects: Project[] = [];
 
     // Initializer
     ngOnInit() {
-        this.addEmptyProject();
+        this.getUsernameFromStorage();
+        this.getProjects();
     }
 
     // Constructor
-    public constructor(private modal: NgbModal) {
+    public constructor(private modal: NgbModal, private storageService: LocalStorageService) {
     }
 
 
@@ -75,8 +83,54 @@ export class AppComponent {
     }
 
     public openPreviewModal(): void {
-        // TODO: Save data to localStorage
+        this.saveNameToLocalStorage();
+        this.saveTaskDataToLocalStorage();
         const modalRef = this.modal.open(PreviewModalComponent, {size: 'xl', centered: true});
         modalRef.componentInstance.projects = this.projects;
+    }
+
+    public clearAllStorageData(): void {
+        if (confirm('Are you sure you want to clear all data?')) {
+            this.storageService.clear();
+            this.clearAllData();
+        }
+    }
+
+    public clearAllData(): void {
+        this.username = '';
+        this.projects = [];
+        this.addEmptyProject()
+    }
+
+    public saveNameToLocalStorage(): void {
+        if (this.username != '') {
+            this.storageService.setItem(this.USERNAME_KEY, this.username);
+        }
+    }
+
+    public saveTaskDataToLocalStorage(): void {
+        if (this.projects.length > 0) {
+            let jsonStr = JSON.stringify(this.projects);
+            this.storageService.setItem(this.PROJECT_KEY, jsonStr);
+        }
+    }
+
+    public getUsernameFromStorage(): void {
+        this.username = this.storageService.getItem(this.USERNAME_KEY);
+    }
+
+    public getProjects(): void {
+        let projectsJsonStr = this.storageService.getItem(this.PROJECT_KEY);
+        try {
+            let projects: Project[] = JSON.parse(projectsJsonStr);
+            this.projects = projects;
+        } catch (error) {
+            console.error("Error in getting projects from storage");
+            this.addEmptyProject();
+        }
+    }
+
+    public getCurrentDate(): number {
+        return Date.now();
     }
 }

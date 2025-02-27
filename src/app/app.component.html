@@ -9,14 +9,14 @@
                     <label for="username"><strong>Name:</strong></label>
                 </div>
                 <div class="col-5">
-                    <input class="form-control" type="text" id="username" placeholder="Name..">
+                    <input class="form-control" type="text" id="username" placeholder="Name.." [(ngModel)]="username">
                 </div>
-<!--                <div class="col-2 text-center">-->
-<!--                    <label for="username"><strong>Date:</strong></label>-->
-<!--                </div>-->
-<!--                <div class="col-4">-->
-<!--                    <input class="form-control" type="date" id="date">-->
-<!--                </div>-->
+                <div class="col-1 text-end">
+                    <label for="username"><strong>Date:</strong></label>
+                </div>
+                <div class="col-5">
+                    <label for="username">{{ getCurrentDate() | date:'d MMMM, y' }}</label>
+                </div>
             </div>
             <hr class="mb-4">
 
@@ -120,7 +120,8 @@
 
                         <div class="col-1">
                             <select class="form-control" [(ngModel)]="task.status">
-                                <option value="In Progress" selected>In Progress</option>
+                                <option value="" selected>Select</option>
+                                <option value="In Progress">In Progress</option>
                                 <option value="Done">Done</option>
                                 <option value="Pending">Pending</option>
                             </select>
@@ -142,7 +143,8 @@
             <div class="container">
                 <div class="row text-center ">
                     <div class="col-12 my-3">
-                        <button class="btn btn-success px-5" (click)="openPreviewModal()">Submit</button>
+                        <button class="btn btn-success px-5 me-3" (click)="openPreviewModal()">Submit</button>
+                        <button class="btn btn-danger px-5" (click)="clearAllStorageData()">Clear All Data</button>
                     </div>
                 </div>
             </div>

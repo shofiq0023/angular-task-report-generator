@@ -39,9 +39,9 @@
     </div>
     <div class="modal-footer">
         @if (projects.length > 1) {
-            <button type="button" class="btn btn-success" (click)="generateMultipleImageAndDownloadAsZip()">Generate Image</button>
+            <button type="button" class="btn btn-success" (click)="generateMultipleImageAndDownloadAsZip()">Generate Image & Download ZIP</button>
         } @else {
-            <button type="button" class="btn btn-success" (click)="generateSingleImageAndDownload()">Generate Image</button>
+            <button type="button" class="btn btn-success" (click)="generateSingleImageAndDownload()">Generate & Download Image</button>
         }
         <button type="button" class="btn btn-secondary" (click)="activeModal.close('Close click')">Close</button>
     </div>
