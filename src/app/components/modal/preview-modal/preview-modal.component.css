@@ -1,0 +1,18 @@
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+th, td {
+    border: 1px solid black;
+    text-align: left;
+    padding: 5px;
+}
+.table-title-header {
+    background-color: #BFBFBF;
+}
+.header-row {
+    background-color: #4DFEA3;
+}
+.table-data {
+    background-color: #4DFEA3;
+}

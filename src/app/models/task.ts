@@ -1,7 +1,9 @@
 export interface Task {
     taskName: string;
-    estimatedTime: string;
-    activeTime: string;
+    estimatedHour: string;
+    estimatedMinute: string;
+    activeHour: string;
+    activeMinute: string;
     status: string;
     remarks: string;
 }

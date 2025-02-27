@@ -5,18 +5,18 @@
 
             <!-- Username -->
             <div class="row align-items-center">
-                <div class="col-2 text-center">
+                <div class="col-1 text-center">
                     <label for="username"><strong>Name:</strong></label>
                 </div>
-                <div class="col-4">
+                <div class="col-5">
                     <input class="form-control" type="text" id="username" placeholder="Name..">
                 </div>
-                <div class="col-2 text-center">
-                    <label for="username"><strong>Date:</strong></label>
-                </div>
-                <div class="col-4">
-                    <input class="form-control" type="date" id="date">
-                </div>
+<!--                <div class="col-2 text-center">-->
+<!--                    <label for="username"><strong>Date:</strong></label>-->
+<!--                </div>-->
+<!--                <div class="col-4">-->
+<!--                    <input class="form-control" type="date" id="date">-->
+<!--                </div>-->
             </div>
             <hr class="mb-4">
 
@@ -42,7 +42,7 @@
                         <label><strong>Project Name:</strong></label>
                     </div>
                     <div class="col-9">
-                        <input class="form-control" type="text" placeholder="Project name..">
+                        <input class="form-control" type="text" placeholder="Project name.." [(ngModel)]="project.name">
                     </div>
                 </div>
                 <hr class="pb-2">
@@ -87,19 +87,19 @@
                             {{ taskIndex + 1 }}
                         </div>
                         <div class="col-3">
-                            <input type="text" class="form-control">
+                            <input type="text" class="form-control" [(ngModel)]="task.taskName">
                         </div>
 
                         <!-- Estimated Time -->
                         <div class="col-1">
                             <div class="input-group">
-                                <input type="text" class="form-control">
+                                <input type="text" class="form-control" [(ngModel)]="task.estimatedHour">
                                 <span class="input-group-text">H</span>
                             </div>
                         </div>
                         <div class="col-1">
                             <div class="input-group">
-                                <input type="text" class="form-control">
+                                <input type="text" class="form-control" [(ngModel)]="task.estimatedMinute">
                                 <span class="input-group-text">M</span>
                             </div>
                         </div>
@@ -107,26 +107,26 @@
                         <!-- Active Time -->
                         <div class="col-1">
                             <div class="input-group">
-                                <input type="text" class="form-control">
+                                <input type="text" class="form-control" [(ngModel)]="task.activeHour">
                                 <span class="input-group-text">H</span>
                             </div>
                         </div>
                         <div class="col-1">
                             <div class="input-group">
-                                <input type="text" class="form-control">
+                                <input type="text" class="form-control" [(ngModel)]="task.activeMinute">
                                 <span class="input-group-text">M</span>
                             </div>
                         </div>
 
                         <div class="col-1">
-                            <select class="form-control">
-                                <option value="Ongoing" selected>Ongoing</option>
+                            <select class="form-control" [(ngModel)]="task.status">
+                                <option value="In Progress" selected>In Progress</option>
                                 <option value="Done">Done</option>
                                 <option value="Pending">Pending</option>
                             </select>
                         </div>
                         <div class="col-2">
-                            <input type="text" class="form-control">
+                            <input type="text" class="form-control" [(ngModel)]="task.remarks">
                         </div>
                     </div>
                 }
@@ -142,7 +142,7 @@
             <div class="container">
                 <div class="row text-center ">
                     <div class="col-12 my-3">
-                        <button class="btn btn-success px-5">Submit</button>
+                        <button class="btn btn-success px-5" (click)="openPreviewModal()">Submit</button>
                     </div>
                 </div>
             </div>

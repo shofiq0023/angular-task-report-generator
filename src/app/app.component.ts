@@ -3,10 +3,13 @@ import {faMinus, faPlus} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {Project} from './models/project';
 import {Task} from './models/task';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {PreviewModalComponent} from './components/modal/preview-modal/preview-modal.component';
+import {FormsModule} from '@angular/forms';
 
 @Component({
     selector: 'app-root',
-    imports: [FontAwesomeModule],
+    imports: [FontAwesomeModule, FormsModule],
     templateUrl: './app.component.html',
     styleUrl: './app.component.css'
 })
@@ -18,9 +21,13 @@ export class AppComponent {
     // Data
     public projects: Project[] = [];
 
-    // Constructor
+    // Initializer
     ngOnInit() {
         this.addEmptyProject();
+    }
+
+    // Constructor
+    public constructor(private modal: NgbModal) {
     }
 
 
@@ -28,12 +35,14 @@ export class AppComponent {
     public addEmptyProject(): void {
         let task: Task = {
             taskName: '',
-            estimatedTime: '',
-            activeTime: '',
+            estimatedHour: '',
+            estimatedMinute: '',
+            activeHour: '',
+            activeMinute: '',
             status: '',
             remarks: ''
         };
-        let project : Project = {
+        let project: Project = {
             name: '',
             tasks: [task]
         };
@@ -43,8 +52,10 @@ export class AppComponent {
     public addEmptyTask(index: number): void {
         let task: Task = {
             taskName: '',
-            estimatedTime: '',
-            activeTime: '',
+            estimatedHour: '',
+            estimatedMinute: '',
+            activeHour: '',
+            activeMinute: '',
             status: '',
             remarks: ''
         };
@@ -61,5 +72,11 @@ export class AppComponent {
         if (confirm('Are you sure you want to remove this task?')) {
             this.projects[projectIndex].tasks.splice(taskIndex, 1);
         }
+    }
+
+    public openPreviewModal(): void {
+        // TODO: Save data to localStorage
+        const modalRef = this.modal.open(PreviewModalComponent, {size: 'xl', centered: true});
+        modalRef.componentInstance.projects = this.projects;
     }
 }

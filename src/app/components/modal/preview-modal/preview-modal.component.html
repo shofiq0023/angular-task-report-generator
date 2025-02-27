@@ -1,0 +1,48 @@
+<div class="container-fluid">
+    <div class="modal-header">
+        <h4 class="modal-title">Preview</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+        @for (project of projects; track project.name; let projectIndex = $index) {
+            <table class="mb-4" [id]="getProjectIdFromProjectName(project.name)">
+                <tr class="table-title-header">
+                    <th colspan="6" class="text-center">Daily Task Status</th>
+                </tr>
+                <tr class="header-row">
+                    <th colspan="2">Name: {{ getUsername() }} <br>Project: {{ project.name }}</th>
+                    <th colspan="4">Date: {{ getCurrentDate() | date:'d MMMM, y' }}</th>
+                </tr>
+                <tr>
+                    <th>SL. No.</th>
+                    <th class="table-data">Task Name</th>
+                    <th class="table-data">Est. Time</th>
+                    <th class="table-data">Act. Time</th>
+                    <th class="table-data">Status</th>
+                    <th class="table-data">Remarks</th>
+                </tr>
+
+                @for (task of project.tasks; track task.taskName; let taskIndex = $index) {
+                    <tr>
+                        <td class="text-center" style="width: 65px">{{ taskIndex + 1 }}</td>
+                        <td style="width: 530px">{{ task.taskName }}</td>
+                        <td style="width: 100px">{{ task.estimatedHour != '' ? task.estimatedHour + 'H' : '' }} {{ task.estimatedMinute != '' ? task.estimatedMinute + 'M' : ''}}</td>
+                        <td style="width: 100px">{{ task.activeHour != '' ? task.activeHour + 'H' : ''}} {{ task.activeMinute != '' ? task.activeMinute + 'M' : '' }}</td>
+                        <td>{{ task.status }}</td>
+                        <td style="width: 190px">{{ task.remarks }}</td>
+                    </tr>
+                }
+
+            </table>
+        }
+
+    </div>
+    <div class="modal-footer">
+        @if (projects.length > 1) {
+            <button type="button" class="btn btn-success" (click)="generateMultipleImageAndDownloadAsZip()">Generate Image</button>
+        } @else {
+            <button type="button" class="btn btn-success" (click)="generateSingleImageAndDownload()">Generate Image</button>
+        }
+        <button type="button" class="btn btn-secondary" (click)="activeModal.close('Close click')">Close</button>
+    </div>
+</div>
