@@ -3,9 +3,9 @@
         <h4 class="modal-title">Preview</h4>
         <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss('Cross click')"></button>
     </div>
-    <div class="modal-body">
+    <div class="modal-body" #projectTableContainer>
         @for (project of projects; track project.name; let projectIndex = $index) {
-            <table class="mb-4" [id]="getProjectIdFromProjectName(project.name)">
+            <table class="mb-4" [id]="getProjectIdFromProjectName(project.name)" #projectTables>
                 <tr class="table-title-header">
                     <th colspan="6" class="text-center">Daily Task Status</th>
                 </tr>
