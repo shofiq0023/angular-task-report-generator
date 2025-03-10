@@ -143,8 +143,22 @@
             <div class="container">
                 <div class="row text-center ">
                     <div class="col-12 my-3">
-                        <button class="btn btn-success px-5 me-3" (click)="openPreviewModal()">Submit</button>
-                        <button class="btn btn-danger px-5" (click)="clearAllStorageData()">Clear All Data</button>
+                        <button class="btn btn-primary px-5" (click)="openPreviewModal()">
+                            <fa-icon [icon]="viewIcon" class="me-1"></fa-icon>
+                            Save & Preview
+                        </button>
+                        <button class="btn btn-success px-5 mx-3" (click)="saveData()">
+                            <fa-icon [icon]="saveIcon" class="me-1"></fa-icon>
+                            Save
+                        </button>
+                        <button class="btn btn-danger px-5 mx-3" (click)="clearTasks()">
+                            <fa-icon [icon]="clearIcon" class="me-1"></fa-icon>
+                            Clear Tasks
+                        </button>
+                        <button class="btn btn-danger px-5" (click)="clearAllStorageData()">
+                            <fa-icon [icon]="deleteIcon" class="me-1"></fa-icon>
+                            Clear All Data
+                        </button>
                     </div>
                 </div>
             </div>

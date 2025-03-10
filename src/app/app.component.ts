@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {faMinus, faPlus} from '@fortawesome/free-solid-svg-icons';
+import {faBroom, faEye, faFloppyDisk, faMinus, faPlus, faTrash} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {Project} from './models/project';
 import {Task} from './models/task';
@@ -23,6 +23,10 @@ export class AppComponent {
     // FontAwesome icon definition
     public addIcon = faPlus;
     public minusIcon = faMinus;
+    public saveIcon = faFloppyDisk;
+    public clearIcon = faBroom;
+    public deleteIcon = faTrash;
+    public viewIcon = faEye;
 
     // Data
     public username: string = '';
@@ -89,6 +93,19 @@ export class AppComponent {
         modalRef.componentInstance.projects = this.projects;
     }
 
+    public saveData(): void {
+        this.saveNameToLocalStorage();
+        this.saveTaskDataToLocalStorage();
+    }
+
+    public clearTasks(): void {
+        if (confirm('Are you sure you want to clear tasks?')) {
+            this.storageService.removeItem(this.PROJECT_KEY);
+            this.projects = [];
+            this.addEmptyProject();
+        }
+    }
+
     public clearAllStorageData(): void {
         if (confirm('Are you sure you want to clear all data?')) {
             this.storageService.clear();
@@ -99,7 +116,7 @@ export class AppComponent {
     public clearAllData(): void {
         this.username = '';
         this.projects = [];
-        this.addEmptyProject()
+        this.addEmptyProject();
     }
 
     public saveNameToLocalStorage(): void {
