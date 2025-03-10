@@ -22,8 +22,7 @@ export class PreviewModalComponent {
     @ViewChild('projectTableContainer', {static: true}) projectTableContainer!: ElementRef;
     @ViewChildren('projectTables') projectTables!: QueryList<ElementRef>;
 
-    public constructor(public activeModal: NgbActiveModal, private storageService: LocalStorageService) {
-    }
+    public constructor(public activeModal: NgbActiveModal, private storageService: LocalStorageService) {}
 
     public getUsername(): string {
         return this.storageService.getItem(this.USERNAME_KEY);
@@ -42,9 +41,38 @@ export class PreviewModalComponent {
             const image = canvas.toDataURL('image/png');
             const link = document.createElement('a');
             link.href = image;
-            link.download = `${this.getUsername()}_task.png`;
+            link.download = `${this.generateImageName()}.png`;
             link.click();
         });
+    }
+
+    private generateImageName(): string {
+        let username = this.getUsername();
+        let formattedUsername = this.getUnderscoreStr(username);
+        let currentDateTimeStr = this.getCurrentDateTimeStr();
+
+        return `${formattedUsername}_${currentDateTimeStr}`;
+    }
+
+    private generateImageNameWithProjectName(projectName: string): string {
+        let username = this.getUsername();
+        let formattedProjectName = this.getUnderscoreStr(projectName);
+        let formattedUsername = this.getUnderscoreStr(username);
+        let currentDateTimeStr = this.getCurrentDateTimeStr();
+
+        return `${formattedUsername}_${formattedProjectName}_${currentDateTimeStr}`;
+    }
+
+    private getCurrentDateTimeStr(): string {
+        let now = new Date();
+
+        let dd = String(now.getDate()).padStart(2, '0');
+        let MM = String(now.getMonth() + 1).padStart(2, '0');
+        let yyyy = now.getFullYear();
+        let hh = String(now.getHours()).padStart(2, '0');
+        let mm = String(now.getMinutes()).padStart(2, '0');
+
+        return `${dd}_${MM}_${yyyy}_${hh}_${mm}`;
     }
 
     public async generateMultipleImageAndDownloadAsZip(): Promise<void> {
@@ -55,11 +83,16 @@ export class PreviewModalComponent {
             const table = tableElements[i].nativeElement;
             const canvas = await html2canvas(table);
             const image = canvas.toDataURL('image/png');
-            zip.file(`project_${i + 1}.png`, image.split(',')[1], { base64: true });
+            const projectName = this.projects[i].name;
+            zip.file(`${this.generateImageNameWithProjectName(projectName)}.png`, image.split(',')[1], { base64: true });
         }
 
         zip.generateAsync({ type: 'blob' }).then(content => {
-            saveAs(content, 'tasks.zip');
+            saveAs(content, `tasks_${this.getCurrentDateTimeStr()}.zip`);
         });
+    }
+
+    private getUnderscoreStr(username: string): string {
+        return username.toLowerCase().replace(/ /g, "_");
     }
 }

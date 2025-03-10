@@ -102,7 +102,6 @@ export class AppComponent {
         if (confirm('Are you sure you want to clear tasks?')) {
             this.storageService.removeItem(this.PROJECT_KEY);
             this.projects = [];
-            this.addEmptyProject();
         }
     }
 
