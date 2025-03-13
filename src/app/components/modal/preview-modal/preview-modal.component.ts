@@ -22,6 +22,8 @@ export class PreviewModalComponent {
     @ViewChild('projectTableContainer', {static: true}) projectTableContainer!: ElementRef;
     @ViewChildren('projectTables') projectTables!: QueryList<ElementRef>;
 
+    public loading: boolean = false;
+
     public constructor(public activeModal: NgbActiveModal, private storageService: LocalStorageService) {}
 
     public getUsername(): string {
@@ -37,12 +39,14 @@ export class PreviewModalComponent {
     }
 
     public generateSingleImageAndDownload(): void {
+        this.loading = true;
         html2canvas(this.projectTableContainer.nativeElement).then(canvas => {
             const image = canvas.toDataURL('image/png');
             const link = document.createElement('a');
             link.href = image;
             link.download = `${this.generateImageName()}.png`;
             link.click();
+            this.loading = false;
         });
     }
 
@@ -76,6 +80,7 @@ export class PreviewModalComponent {
     }
 
     public async generateMultipleImageAndDownloadAsZip(): Promise<void> {
+        this.loading = true;
         const zip = new JSZip();
         const tableElements = this.projectTables.toArray();
 
@@ -89,6 +94,7 @@ export class PreviewModalComponent {
 
         zip.generateAsync({ type: 'blob' }).then(content => {
             saveAs(content, `tasks_${this.getCurrentDateTimeStr()}.zip`);
+            this.loading = false;
         });
     }
 

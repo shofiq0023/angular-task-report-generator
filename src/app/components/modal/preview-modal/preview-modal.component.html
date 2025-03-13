@@ -39,9 +39,23 @@
     </div>
     <div class="modal-footer">
         @if (projects.length > 1) {
-            <button type="button" class="btn btn-success" (click)="generateMultipleImageAndDownloadAsZip()">Generate Image & Download ZIP</button>
+            <button type="button" class="btn btn-success" (click)="generateMultipleImageAndDownloadAsZip()">
+                @if (loading) {
+                    <div class="spinner-border spinner-border-sm" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                }
+                Generate Image & Download ZIP
+            </button>
         } @else {
-            <button type="button" class="btn btn-success" (click)="generateSingleImageAndDownload()">Generate & Download Image</button>
+            <button type="button" class="btn btn-success" (click)="generateSingleImageAndDownload()">
+                @if (loading) {
+                    <div class="spinner-border spinner-border-sm" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                }
+                Generate & Download Image
+            </button>
         }
         <button type="button" class="btn btn-secondary" (click)="activeModal.close('Close click')">Close</button>
     </div>
