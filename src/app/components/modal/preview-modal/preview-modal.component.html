@@ -45,6 +45,7 @@
                         <span class="visually-hidden">Loading...</span>
                     </div>
                 }
+                <fa-icon [icon]="fileZipIcon" class="mx-1"></fa-icon>
                 Generate Image & Download ZIP
             </button>
         } @else {
@@ -54,9 +55,13 @@
                         <span class="visually-hidden">Loading...</span>
                     </div>
                 }
+                <fa-icon [icon]="fileDownloadIcon" class="mx-1"></fa-icon>
                 Generate & Download Image
             </button>
         }
-        <button type="button" class="btn btn-secondary" (click)="activeModal.close('Close click')">Close</button>
+        <button type="button" class="btn btn-secondary" (click)="activeModal.close('Close click')">
+            <fa-icon [icon]="crossIcon" class="me-1"></fa-icon>
+            Close
+        </button>
     </div>
 </div>

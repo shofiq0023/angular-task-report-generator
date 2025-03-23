@@ -6,12 +6,12 @@ import {LocalStorageService} from '../../../services/local-storage.service';
 import html2canvas from 'html2canvas';
 import JSZip from 'jszip';
 import { saveAs } from 'file-saver';
+import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
+import {faCross, faEye, faFileArrowDown, faFileZipper, faXmark} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
     selector: 'app-preview-modal',
-    imports: [
-        DatePipe
-    ],
+    imports: [FontAwesomeModule, DatePipe],
     templateUrl: './preview-modal.component.html',
     styleUrl: './preview-modal.component.css'
 })
@@ -21,6 +21,11 @@ export class PreviewModalComponent {
 
     @ViewChild('projectTableContainer', {static: true}) projectTableContainer!: ElementRef;
     @ViewChildren('projectTables') projectTables!: QueryList<ElementRef>;
+
+    // FontAwesome icon definition
+    public crossIcon = faXmark;
+    public fileDownloadIcon = faFileArrowDown;
+    public fileZipIcon = faFileZipper;
 
     public loading: boolean = false;
 
@@ -47,6 +52,17 @@ export class PreviewModalComponent {
             link.download = `${this.generateImageName()}.png`;
             link.click();
             this.loading = false;
+
+            this.copyGeneratedImageToClipboard(canvas);
+        });
+    }
+
+    private copyGeneratedImageToClipboard(canvas: HTMLCanvasElement): void {
+        canvas.toBlob(blob => {
+            if (blob != null) {
+                const item = new ClipboardItem({ 'image/png': blob });
+                navigator.clipboard.write([item]).catch(err => console.error('Failed to copy image:', err));
+            }
         });
     }
 
@@ -101,4 +117,6 @@ export class PreviewModalComponent {
     private getUnderscoreStr(username: string): string {
         return username.toLowerCase().replace(/ /g, "_");
     }
+
+    protected readonly viewIcon = faEye;
 }
