@@ -7,7 +7,7 @@ import html2canvas from 'html2canvas';
 import JSZip from 'jszip';
 import { saveAs } from 'file-saver';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
-import {faCross, faEye, faFileArrowDown, faFileZipper, faXmark} from '@fortawesome/free-solid-svg-icons';
+import {faCopy, faCross, faEye, faFileArrowDown, faFileZipper, faXmark} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
     selector: 'app-preview-modal',
@@ -26,8 +26,10 @@ export class PreviewModalComponent {
     public crossIcon = faXmark;
     public fileDownloadIcon = faFileArrowDown;
     public fileZipIcon = faFileZipper;
+    public copyIcon = faCopy;
 
     public loading: boolean = false;
+    public loadingImageCopying: boolean = false;
 
     public constructor(public activeModal: NgbActiveModal, private storageService: LocalStorageService) {}
 
@@ -57,8 +59,16 @@ export class PreviewModalComponent {
         });
     }
 
+    public generateSingleImageAndCopyToClipboard(): void {
+        this.loadingImageCopying = true;
+        html2canvas(this.projectTableContainer.nativeElement).then(canvas => {
+            this.copyGeneratedImageToClipboard(canvas);
+        });
+    }
+
     private copyGeneratedImageToClipboard(canvas: HTMLCanvasElement): void {
         canvas.toBlob(blob => {
+            this.loadingImageCopying = false;
             if (blob != null) {
                 const item = new ClipboardItem({ 'image/png': blob });
                 navigator.clipboard.write([item]).catch(err => console.error('Failed to copy image:', err));
