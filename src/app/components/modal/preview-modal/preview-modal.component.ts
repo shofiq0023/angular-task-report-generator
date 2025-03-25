@@ -5,9 +5,9 @@ import {DatePipe} from '@angular/common';
 import {LocalStorageService} from '../../../services/local-storage.service';
 import html2canvas from 'html2canvas';
 import JSZip from 'jszip';
-import { saveAs } from 'file-saver';
+import {saveAs} from 'file-saver';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
-import {faCopy, faCross, faEye, faFileArrowDown, faFileZipper, faXmark} from '@fortawesome/free-solid-svg-icons';
+import {faCopy, faEye, faFileArrowDown, faFileZipper, faXmark} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
     selector: 'app-preview-modal',
@@ -55,20 +55,20 @@ export class PreviewModalComponent {
             link.click();
             this.loading = false;
 
-            this.copyGeneratedImageToClipboard(canvas);
+            this.copyImageToClipboard(canvas);
         });
     }
 
     public generateSingleImageAndCopyToClipboard(): void {
         this.loadingImageCopying = true;
         html2canvas(this.projectTableContainer.nativeElement).then(canvas => {
-            this.copyGeneratedImageToClipboard(canvas);
+            this.copyImageToClipboard(canvas);
         });
     }
 
-    private copyGeneratedImageToClipboard(canvas: HTMLCanvasElement): void {
+    private copyImageToClipboard(canvas: HTMLCanvasElement): void {
+        this.loadingImageCopying = false
         canvas.toBlob(blob => {
-            this.loadingImageCopying = false;
             if (blob != null) {
                 const item = new ClipboardItem({ 'image/png': blob });
                 navigator.clipboard.write([item]).catch(err => console.error('Failed to copy image:', err));
