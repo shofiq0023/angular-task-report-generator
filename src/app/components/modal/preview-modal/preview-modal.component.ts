@@ -127,6 +127,4 @@ export class PreviewModalComponent {
     private getUnderscoreStr(username: string): string {
         return username.toLowerCase().replace(/ /g, "_");
     }
-
-    protected readonly viewIcon = faEye;
 }
