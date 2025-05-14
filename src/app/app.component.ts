@@ -1,5 +1,14 @@
 import {Component} from '@angular/core';
-import {faBroom, faEye, faFloppyDisk, faMinus, faPlus, faTrash} from '@fortawesome/free-solid-svg-icons';
+import {
+    faBroom, faCaretDown,
+    faCaretUp,
+    faEye,
+    faFloppyDisk,
+    faGear,
+    faMinus,
+    faPlus,
+    faTrash
+} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {Project} from './models/project';
 import {Task} from './models/task';
@@ -7,11 +16,11 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {PreviewModalComponent} from './components/modal/preview-modal/preview-modal.component';
 import {FormsModule} from '@angular/forms';
 import {LocalStorageService} from './services/local-storage.service';
-import {DatePipe} from '@angular/common';
+import {DatePipe, NgClass} from '@angular/common';
 
 @Component({
     selector: 'app-root',
-    imports: [FontAwesomeModule, FormsModule, DatePipe],
+    imports: [FontAwesomeModule, FormsModule, DatePipe, NgClass],
     templateUrl: './app.component.html',
     styleUrl: './app.component.css'
 })
@@ -27,6 +36,9 @@ export class AppComponent {
     public clearIcon = faBroom;
     public deleteIcon = faTrash;
     public viewIcon = faEye;
+    public gearIcon = faGear;
+    public caretUpIcon = faCaretUp;
+    public caretDownIcon = faCaretDown;
 
     // Data
     public username: string = '';
@@ -147,5 +159,21 @@ export class AppComponent {
 
     public getCurrentDate(): number {
         return Date.now();
+    }
+
+    public moveTaskUpward(projectIndex: number, taskIndex: number): void {
+        const tasks = this.projects[projectIndex].tasks;
+        this.moveTask(tasks, taskIndex, taskIndex - 1);
+    }
+
+    public moveTaskDownward(projectIndex: number, taskIndex: number): void {
+        const tasks = this.projects[projectIndex].tasks;
+        this.moveTask(tasks, taskIndex, taskIndex + 1);
+    }
+
+    private moveTask(tasks: Task[], fromIndex: number, toIndex: number): void {
+        if (fromIndex < 0 || toIndex < 0 || fromIndex >= tasks.length || toIndex >= tasks.length) return;
+        const [task] = tasks.splice(fromIndex, 1);
+        tasks.splice(toIndex, 0, task);
     }
 }

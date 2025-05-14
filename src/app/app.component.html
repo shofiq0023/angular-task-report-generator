@@ -1,7 +1,12 @@
 <div class="main">
     <div class="container-fluid">
         <div class="container">
-            <h1 class="text-center mb-5">Daily Task Status Generator</h1>
+            <h1 class="text-center mb-5">
+                Daily Task Status Generator
+                <button class="btn btn-secondary btn-sm ms-1">
+                    <fa-icon [icon]="gearIcon"></fa-icon>
+                </button>
+            </h1>
 
             <!-- Username -->
             <div class="row align-items-center">
@@ -78,9 +83,21 @@
                     <!-- Task Row body -->
                     <div class="row align-items-center pb-2">
                         <!-- Remove task button -->
-                        <div class="col-1 text-center">
+                        <div class="col-1 text-center d-flex justify-content-center">
+                            <button class="btn"
+                                    [ngClass]="{'opacity-0': taskIndex < 1}"
+                                    (click)="moveTaskUpward(projectIndex, taskIndex)">
+                                <fa-icon [icon]="caretUpIcon"></fa-icon>
+                            </button>
+
                             <button class="btn btn-danger" (click)="removeTask(projectIndex, taskIndex)">
                                 <fa-icon [icon]="minusIcon"></fa-icon>
+                            </button>
+
+                            <button class="btn"
+                                    [ngClass]="{'opacity-0': taskIndex == project.tasks.length - 1}"
+                                    (click)="moveTaskDownward(projectIndex, taskIndex)">
+                                <fa-icon [icon]="caretDownIcon"></fa-icon>
                             </button>
                         </div>
                         <div class="col-1">
