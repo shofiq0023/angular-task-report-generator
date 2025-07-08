@@ -112,13 +112,13 @@
                         <!-- Estimated Time -->
                         <div class="col-1">
                             <div class="input-group">
-                                <input type="text" class="form-control" [(ngModel)]="task.estimatedHour">
+                                <input type="number" class="form-control" min="0" max="60" [(ngModel)]="task.estimatedHour">
                                 <span class="input-group-text">H</span>
                             </div>
                         </div>
                         <div class="col-1">
                             <div class="input-group">
-                                <input type="text" class="form-control" [(ngModel)]="task.estimatedMinute">
+                                <input type="number" class="form-control" min="0" max="60" [(ngModel)]="task.estimatedMinute">
                                 <span class="input-group-text">M</span>
                             </div>
                         </div>
@@ -126,13 +126,13 @@
                         <!-- Active Time -->
                         <div class="col-1">
                             <div class="input-group">
-                                <input type="text" class="form-control" [(ngModel)]="task.activeHour">
+                                <input type="number" class="form-control" min="0" max="60" [(ngModel)]="task.activeHour">
                                 <span class="input-group-text">H</span>
                             </div>
                         </div>
                         <div class="col-1">
                             <div class="input-group">
-                                <input type="text" class="form-control" [(ngModel)]="task.activeMinute">
+                                <input type="number" class="form-control" min="0" max="60" [(ngModel)]="task.activeMinute">
                                 <span class="input-group-text">M</span>
                             </div>
                         </div>

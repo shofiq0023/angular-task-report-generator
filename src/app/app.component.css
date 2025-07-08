@@ -8,3 +8,12 @@ hr {
     left: 0;
     width: 100%;
 }
+input[type="number"] {
+    appearance: textfield; /* Removes arrows in Firefox */
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none; /* Removes arrows in Chrome/Safari */
+    margin: 0;
+}
