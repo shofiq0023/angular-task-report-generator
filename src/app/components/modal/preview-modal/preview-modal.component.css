@@ -16,3 +16,6 @@ th, td {
 .table-data {
     background-color: #4DFEA3;
 }
+.white-space-pre-wrap {
+    white-space: pre-wrap;
+}
