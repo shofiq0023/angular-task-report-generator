@@ -29,7 +29,7 @@
                         <td style="width: 100px">{{ task.estimatedHour != '' ? task.estimatedHour + 'H' : '' }} {{ task.estimatedMinute != '' ? task.estimatedMinute + 'M' : ''}}</td>
                         <td style="width: 100px">{{ task.activeHour != '' ? task.activeHour + 'H' : ''}} {{ task.activeMinute != '' ? task.activeMinute + 'M' : '' }}</td>
                         <td>{{ task.status }}</td>
-                        <td style="width: 190px">{{ task.remarks }}</td>
+                        <td class="white-space-pre-wrap" style="width: 190px">{{ task.remarks }}</td>
                     </tr>
                 }
 
