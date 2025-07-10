@@ -7,7 +7,7 @@ import html2canvas from 'html2canvas';
 import JSZip from 'jszip';
 import {saveAs} from 'file-saver';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
-import {faCopy, faEye, faFileArrowDown, faFileZipper, faXmark} from '@fortawesome/free-solid-svg-icons';
+import {faCopy, faFileArrowDown, faFileZipper, faXmark} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
     selector: 'app-preview-modal',
