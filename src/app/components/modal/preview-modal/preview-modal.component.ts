@@ -127,4 +127,8 @@ export class PreviewModalComponent {
     private getUnderscoreStr(username: string): string {
         return username.toLowerCase().replace(/ /g, "_");
     }
+
+    public notNullAndNotEmpty(data: string): boolean {
+        return data != null && data != '';
+    }
 }

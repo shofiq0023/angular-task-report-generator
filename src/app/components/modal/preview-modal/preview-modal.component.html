@@ -26,8 +26,8 @@
                     <tr>
                         <td class="text-center" style="width: 65px">{{ taskIndex + 1 }}</td>
                         <td class="white-space-pre-wrap" style="width: 530px">{{ task.taskName }}</td>
-                        <td style="width: 100px">{{ task.estimatedHour != '' ? task.estimatedHour + 'H' : '' }} {{ task.estimatedMinute != '' ? task.estimatedMinute + 'M' : ''}}</td>
-                        <td style="width: 100px">{{ task.activeHour != '' ? task.activeHour + 'H' : ''}} {{ task.activeMinute != '' ? task.activeMinute + 'M' : '' }}</td>
+                        <td style="width: 100px">{{ notNullAndNotEmpty(task.estimatedHour) ? task.estimatedHour + 'H' : '' }} {{ notNullAndNotEmpty(task.estimatedMinute) ? task.estimatedMinute + 'M' : ''}}</td>
+                        <td style="width: 100px">{{ notNullAndNotEmpty(task.activeHour) ? task.activeHour + 'H' : ''}} {{ notNullAndNotEmpty(task.activeMinute) ? task.activeMinute + 'M' : '' }}</td>
                         <td>{{ task.status }}</td>
                         <td class="white-space-pre-wrap" style="width: 190px">{{ task.remarks }}</td>
                     </tr>
