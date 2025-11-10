@@ -1,7 +1,8 @@
 <div class="container-fluid">
     <div class="modal-header">
         <h4 class="modal-title">Preview</h4>
-        <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss('Cross click')"></button>
+        <button type="button" class="btn-close" aria-label="Close"
+                (click)="activeModal.dismiss('Cross click')"></button>
     </div>
     <div class="modal-body" #projectTableContainer>
         @for (project of projects; track project.name; let projectIndex = $index) {
@@ -26,8 +27,8 @@
                     <tr>
                         <td class="text-center" style="width: 65px">{{ taskIndex + 1 }}</td>
                         <td class="white-space-pre-wrap" style="width: 530px">{{ task.taskName }}</td>
-                        <td style="width: 100px">{{ notNullAndNotEmpty(task.estimatedHour) ? task.estimatedHour + 'H' : '' }} {{ notNullAndNotEmpty(task.estimatedMinute) ? task.estimatedMinute + 'M' : ''}}</td>
-                        <td style="width: 100px">{{ notNullAndNotEmpty(task.activeHour) ? task.activeHour + 'H' : ''}} {{ notNullAndNotEmpty(task.activeMinute) ? task.activeMinute + 'M' : '' }}</td>
+                        <td style="width: 100px">{{ notNullAndNotEmpty(task.estimatedHour) ? task.estimatedHour + 'H' : '' }} {{ notNullAndNotEmpty(task.estimatedMinute) ? task.estimatedMinute + 'M' : '' }}</td>
+                        <td style="width: 100px">{{ notNullAndNotEmpty(task.activeHour) ? task.activeHour + 'H' : '' }} {{ notNullAndNotEmpty(task.activeMinute) ? task.activeMinute + 'M' : '' }}</td>
                         <td>{{ task.status }}</td>
                         <td class="white-space-pre-wrap" style="width: 190px">{{ task.remarks }}</td>
                     </tr>

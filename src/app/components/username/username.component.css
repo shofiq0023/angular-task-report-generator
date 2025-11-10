@@ -1,0 +1,23 @@
+.username {
+    transition: all 200ms ease-in-out;
+}
+
+.username .username-edit-icon {
+    transition: all 200ms ease-in-out;
+    display: inline-block;
+    transform: translateY(10px);
+    opacity: 0;
+}
+
+.username:hover .username-edit-icon {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.current-date {
+    color: #999999;
+}
+
+.username-input {
+    font-size: 28px;
+}

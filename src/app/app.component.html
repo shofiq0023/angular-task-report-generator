@@ -3,26 +3,13 @@
         <div class="container">
             <h1 class="text-center mb-5">
                 Daily Task Status Generator
-                <button class="btn btn-secondary btn-sm ms-1">
-                    <fa-icon [icon]="gearIcon"></fa-icon>
-                </button>
             </h1>
 
             <!-- Username -->
-            <div class="row align-items-center">
-                <div class="col-1 text-center">
-                    <label for="username"><strong>Name:</strong></label>
-                </div>
-                <div class="col-5">
-                    <input class="form-control" type="text" id="username" placeholder="Name.." [(ngModel)]="username">
-                </div>
-                <div class="col-1 text-end">
-                    <label for="username"><strong>Date:</strong></label>
-                </div>
-                <div class="col-5">
-                    <label for="username">{{ getCurrentDate() | date:'d MMMM, y' }}</label>
-                </div>
+            <div class="row">
+                <app-username></app-username>
             </div>
+
             <hr class="mb-4">
 
             <!-- Add more project button -->
@@ -37,7 +24,7 @@
             @for (project of projects; track project.name; let projectIndex = $index) {
                 <!-- Project Row -->
                 <div class="row align-items-center">
-                <!-- Remove project button -->
+                    <!-- Remove project button -->
                     <div class="col-md-1">
                         <button class="btn btn-danger" (click)="removeProject(projectIndex)">
                             <fa-icon [icon]="minusIcon"></fa-icon>
@@ -112,13 +99,15 @@
                         <!-- Estimated Time -->
                         <div class="col-1">
                             <div class="input-group">
-                                <input type="number" class="form-control" min="0" max="60" [(ngModel)]="task.estimatedHour">
+                                <input type="number" class="form-control" min="0" max="60"
+                                       [(ngModel)]="task.estimatedHour">
                                 <span class="input-group-text">H</span>
                             </div>
                         </div>
                         <div class="col-1">
                             <div class="input-group">
-                                <input type="number" class="form-control" min="0" max="60" [(ngModel)]="task.estimatedMinute">
+                                <input type="number" class="form-control" min="0" max="60"
+                                       [(ngModel)]="task.estimatedMinute">
                                 <span class="input-group-text">M</span>
                             </div>
                         </div>
@@ -126,13 +115,15 @@
                         <!-- Active Time -->
                         <div class="col-1">
                             <div class="input-group">
-                                <input type="number" class="form-control" min="0" max="60" [(ngModel)]="task.activeHour">
+                                <input type="number" class="form-control" min="0" max="60"
+                                       [(ngModel)]="task.activeHour">
                                 <span class="input-group-text">H</span>
                             </div>
                         </div>
                         <div class="col-1">
                             <div class="input-group">
-                                <input type="number" class="form-control" min="0" max="60" [(ngModel)]="task.activeMinute">
+                                <input type="number" class="form-control" min="0" max="60"
+                                       [(ngModel)]="task.activeMinute">
                                 <span class="input-group-text">M</span>
                             </div>
                         </div>

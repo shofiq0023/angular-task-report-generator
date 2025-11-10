@@ -1,0 +1,26 @@
+<div class="row">
+    @if (!usernameEditing) {
+        <h3 class="username" (click)="startEditingUsername()">
+            {{ username }}
+            <span class="ms-1 username-edit-icon">
+                <fa-icon class="fa-2xs" [icon]="pencilIcon"></fa-icon>
+            </span>
+        </h3>
+    } @else {
+        <form>
+            <div class="col-5 d-flex">
+                <input #usernameInput class="form-control username-input" type="text"
+                       name="username" placeholder="username.."
+                       [(ngModel)]="username" (blur)="saveUsername()">
+
+                <button class="btn text-success" title="Save" role="button" (click)="saveUsername()">
+                    <fa-icon class="fa-xl" [icon]="checkIcon"></fa-icon>
+                </button>
+                <button class="btn" title="Cancel" role="button" (click)="endEditingUsername()">
+                    <fa-icon class="fa-xl" [icon]="crossIcon"></fa-icon>
+                </button>
+            </div>
+        </form>
+    }
+    <h5 class="current-date">{{ currentDate | date:'dd/MM/yyyy' }}</h5>
+</div>

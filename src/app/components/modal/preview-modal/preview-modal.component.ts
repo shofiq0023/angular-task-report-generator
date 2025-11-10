@@ -31,7 +31,8 @@ export class PreviewModalComponent {
     public loading: boolean = false;
     public loadingImageCopying: boolean = false;
 
-    public constructor(public activeModal: NgbActiveModal, private storageService: LocalStorageService) {}
+    public constructor(public activeModal: NgbActiveModal, private storageService: LocalStorageService) {
+    }
 
     public getUsername(): string {
         return this.storageService.getItem(this.USERNAME_KEY);
@@ -70,7 +71,7 @@ export class PreviewModalComponent {
         this.loadingImageCopying = false
         canvas.toBlob(blob => {
             if (blob != null) {
-                const item = new ClipboardItem({ 'image/png': blob });
+                const item = new ClipboardItem({'image/png': blob});
                 navigator.clipboard.write([item]).catch(err => console.error('Failed to copy image:', err));
             }
         });
@@ -115,10 +116,10 @@ export class PreviewModalComponent {
             const canvas = await html2canvas(table);
             const image = canvas.toDataURL('image/png');
             const projectName = this.projects[i].name;
-            zip.file(`${this.generateImageNameWithProjectName(projectName)}.png`, image.split(',')[1], { base64: true });
+            zip.file(`${this.generateImageNameWithProjectName(projectName)}.png`, image.split(',')[1], {base64: true});
         }
 
-        zip.generateAsync({ type: 'blob' }).then(content => {
+        zip.generateAsync({type: 'blob'}).then(content => {
             saveAs(content, `tasks_${this.getCurrentDateTimeStr()}.zip`);
             this.loading = false;
         });

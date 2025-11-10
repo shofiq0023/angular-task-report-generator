@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {
-    faBroom, faCaretDown,
+    faBroom,
+    faCaretDown,
     faCaretUp,
     faEye,
     faFloppyDisk,
@@ -16,11 +17,12 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {PreviewModalComponent} from './components/modal/preview-modal/preview-modal.component';
 import {FormsModule} from '@angular/forms';
 import {LocalStorageService} from './services/local-storage.service';
-import {DatePipe, NgClass} from '@angular/common';
+import {NgClass} from '@angular/common';
+import {UsernameComponent} from './components/username/username.component';
 
 @Component({
     selector: 'app-root',
-    imports: [FontAwesomeModule, FormsModule, DatePipe, NgClass],
+    imports: [FontAwesomeModule, FormsModule, NgClass, UsernameComponent],
     templateUrl: './app.component.html',
     styleUrl: './app.component.css'
 })
@@ -46,7 +48,6 @@ export class AppComponent {
 
     // Initializer
     ngOnInit() {
-        this.getUsernameFromStorage();
         this.getProjects();
     }
 
@@ -155,10 +156,6 @@ export class AppComponent {
             console.error("Error in getting projects from storage");
             this.addEmptyProject();
         }
-    }
-
-    public getCurrentDate(): number {
-        return Date.now();
     }
 
     public moveTaskUpward(projectIndex: number, taskIndex: number): void {
