@@ -18,3 +18,31 @@ input[type="number"]::-webkit-outer-spin-button {
     -webkit-appearance: none; /* Removes arrows in Chrome/Safari */
     margin: 0;
 }
+
+.project-name {
+    transition: all 200ms ease-in-out;
+}
+
+.project-name-container .project-name-edit-icon, .project-name-container .project-delete-icon, .project-name-container .project-task-clear-icon  {
+    transition: all 200ms ease-in-out;
+    display: inline-block;
+    transform: translateY(10px);
+    opacity: 0;
+}
+
+.project-name-container .project-delete-icon {
+    transition-delay: 50ms;
+}
+
+.project-name-container .project-task-clear-icon {
+    transition-delay: 100ms;
+}
+
+.project-name-container:hover .project-name-edit-icon, .project-name-container:hover .project-delete-icon, .project-name-container:hover .project-task-clear-icon {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.project-name-input {
+    font-size: 28px;
+}

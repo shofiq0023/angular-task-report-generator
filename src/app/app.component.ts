@@ -1,16 +1,18 @@
-import {Component} from '@angular/core';
+import {Component, ElementRef, QueryList, ViewChildren} from '@angular/core';
 import {
     faBroom,
     faCaretDown,
     faCaretUp,
+    faCircleCheck,
+    faCircleMinus,
+    faCirclePlus,
+    faCircleXmark,
     faEye,
     faFloppyDisk,
-    faGear,
-    faMinus,
-    faPlus,
+    faPencil,
     faTrash
 } from '@fortawesome/free-solid-svg-icons';
-import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
+import {FontAwesomeModule, IconDefinition} from '@fortawesome/angular-fontawesome';
 import {Project} from './models/project';
 import {Task} from './models/task';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
@@ -19,10 +21,11 @@ import {FormsModule} from '@angular/forms';
 import {LocalStorageService} from './services/local-storage.service';
 import {NgClass} from '@angular/common';
 import {UsernameComponent} from './components/username/username.component';
+import {AutoGrowDirective} from './directives/auto-grow.directive';
 
 @Component({
     selector: 'app-root',
-    imports: [FontAwesomeModule, FormsModule, NgClass, UsernameComponent],
+    imports: [FontAwesomeModule, FormsModule, NgClass, UsernameComponent, AutoGrowDirective],
     templateUrl: './app.component.html',
     styleUrl: './app.component.css'
 })
@@ -32,19 +35,25 @@ export class AppComponent {
     private USERNAME_KEY: string = 'username';
 
     // FontAwesome icon definition
-    public addIcon = faPlus;
-    public minusIcon = faMinus;
+    public addIcon = faCirclePlus;
+    public minusIcon = faCircleMinus;
     public saveIcon = faFloppyDisk;
     public clearIcon = faBroom;
     public deleteIcon = faTrash;
     public viewIcon = faEye;
-    public gearIcon = faGear;
     public caretUpIcon = faCaretUp;
     public caretDownIcon = faCaretDown;
+    public pencilIcon = faPencil;
+    public trashIcon = faTrash;
+    public broomIcon = faBroom;
+    public checkIcon: IconDefinition = faCircleCheck;
+    public crossIcon: IconDefinition = faCircleXmark;
 
     // Data
     public username: string = '';
     public projects: Project[] = [];
+
+    @ViewChildren('projectNameInput') projectNameInputs!: QueryList<ElementRef<HTMLInputElement>>;
 
     // Initializer
     ngOnInit() {
@@ -68,7 +77,8 @@ export class AppComponent {
             remarks: ''
         };
         let project: Project = {
-            name: '',
+            name: 'Project Name',
+            isEditing: false,
             tasks: [task]
         };
         this.projects.push(project);
@@ -87,6 +97,22 @@ export class AppComponent {
         this.projects[index].tasks.push(task);
     }
 
+    public startEditingProjectName(projectIndex: number): void {
+        this.projects[projectIndex].isEditing = true;
+
+        setTimeout(() => {
+            const projectNameInputField = this.projectNameInputs.get(projectIndex);
+            if (projectNameInputField) {
+                projectNameInputField.nativeElement.focus();
+                projectNameInputField.nativeElement.select();
+            }
+        })
+    }
+
+    public endEditingProjectName(projectIndex: number): void {
+        this.projects[projectIndex].isEditing = false;
+    }
+
     public removeProject(index: number): void {
         if (confirm('Are you sure you want to remove this project?')) {
             this.projects.splice(index, 1);
@@ -99,6 +125,13 @@ export class AppComponent {
         }
     }
 
+    public clearTaskOfProject(projectIndex: number): void {
+        if (confirm("Are you sure you want to clear all the task of this project?")) {
+            this.projects[projectIndex].tasks = [];
+            this.addEmptyTask(projectIndex);
+        }
+    }
+
     public openPreviewModal(): void {
         this.saveNameToLocalStorage();
         this.saveTaskDataToLocalStorage();
@@ -106,7 +139,10 @@ export class AppComponent {
         modalRef.componentInstance.projects = this.projects;
     }
 
-    public saveData(): void {
+    public saveData(projectIndex?: number): void {
+        if (projectIndex != undefined)
+            this.endEditingProjectName(projectIndex);
+
         this.saveNameToLocalStorage();
         this.saveTaskDataToLocalStorage();
     }

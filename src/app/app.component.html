@@ -24,17 +24,42 @@
             @for (project of projects; track project.name; let projectIndex = $index) {
                 <!-- Project Row -->
                 <div class="row align-items-center">
-                    <!-- Remove project button -->
-                    <div class="col-md-1">
-                        <button class="btn btn-danger" (click)="removeProject(projectIndex)">
-                            <fa-icon [icon]="minusIcon"></fa-icon>
-                        </button>
-                    </div>
-                    <div class="col-2">
-                        <label><strong>Project Name:</strong></label>
-                    </div>
-                    <div class="col-9">
-                        <input class="form-control" type="text" placeholder="Project name.." [(ngModel)]="project.name">
+                    <div class="d-flex">
+                        @if (project.isEditing) {
+                            <form>
+                                <div class="d-flex">
+                                    <input #projectNameInput class="form-control project-name-input" type="text"
+                                           name="project-name" placeholder="Project name.."
+                                           [(ngModel)]="project.name" (blur)="saveData(projectIndex)">
+
+                                    <button class="btn text-success" title="Save" role="button" (click)="saveData(projectIndex)">
+                                        <fa-icon class="fa-xl" [icon]="checkIcon"></fa-icon>
+                                    </button>
+                                    <button class="btn" title="Cancel" role="button" (click)="endEditingProjectName(projectIndex)">
+                                        <fa-icon class="fa-xl" [icon]="crossIcon"></fa-icon>
+                                    </button>
+                                </div>
+                            </form>
+                        } @else {
+                            <div class="d-flex align-items-center project-name-container">
+                                <h1 class="project-name me-2" (click)="startEditingProjectName(projectIndex)">{{ project.name }}</h1>
+                                <span class="project-name-edit-icon" (click)="startEditingProjectName(projectIndex)">
+                                    <button class="btn" title="Edit project name">
+                                        <fa-icon class="fa-lg" [icon]="pencilIcon"></fa-icon>
+                                    </button>
+                                </span>
+                                <span class="project-delete-icon">
+                                    <button class="btn text-danger" title="Delete the project" (click)="removeProject(projectIndex)">
+                                        <fa-icon class="fa-lg" [icon]="trashIcon"></fa-icon>
+                                    </button>
+                                </span>
+                                <span class="project-task-clear-icon">
+                                    <button class="btn text-warning" title="Clear tasks" (click)="clearTaskOfProject(projectIndex)">
+                                        <fa-icon class="fa-lg" [icon]="broomIcon"></fa-icon>
+                                    </button>
+                                </span>
+                            </div>
+                        }
                     </div>
                 </div>
                 <hr class="pb-2">
@@ -43,8 +68,8 @@
                 <div class="row align-items-center pb-3">
                     <!-- Add more task button -->
                     <div class="col-1 text-center">
-                        <button class="btn btn-success" (click)="addEmptyTask(projectIndex)">
-                            <fa-icon [icon]="addIcon"></fa-icon>
+                        <button class="btn text-success" (click)="addEmptyTask(projectIndex)">
+                            <fa-icon class="fa-xl" [icon]="addIcon"></fa-icon>
                         </button>
                     </div>
                     <div class="col-1">
@@ -77,8 +102,8 @@
                                 <fa-icon [icon]="caretUpIcon"></fa-icon>
                             </button>
 
-                            <button class="btn btn-danger" (click)="removeTask(projectIndex, taskIndex)">
-                                <fa-icon [icon]="minusIcon"></fa-icon>
+                            <button class="btn text-danger" (click)="removeTask(projectIndex, taskIndex)">
+                                <fa-icon class="fa-xl" [icon]="minusIcon"></fa-icon>
                             </button>
 
                             <button class="btn"
@@ -93,7 +118,7 @@
 
                         <!-- Task Name -->
                         <div class="col-3">
-                            <textarea class="form-control" [(ngModel)]="task.taskName"></textarea>
+                            <textarea class="form-control" rows="1" [(ngModel)]="task.taskName" autoGrow></textarea>
                         </div>
 
                         <!-- Estimated Time -->
@@ -141,7 +166,7 @@
 
                         <!-- Remarks -->
                         <div class="col-2">
-                            <textarea class="form-control" [(ngModel)]="task.remarks"></textarea>
+                            <textarea class="form-control" rows="1" [(ngModel)]="task.remarks" autoGrow></textarea>
                         </div>
                     </div>
                 }

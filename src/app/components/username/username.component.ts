@@ -35,7 +35,7 @@ export class UsernameComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        if (this.usernameService.getUsernameFromStorage() == null) {
+        if (this.usernameService.getUsernameFromStorage() == null || this.usernameService.getUsernameFromStorage() == "") {
             this.username = this.defaultUsername;
         } else {
             this.username = this.usernameService.getUsernameFromStorage();

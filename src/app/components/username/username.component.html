@@ -3,7 +3,9 @@
         <h3 class="username" (click)="startEditingUsername()">
             {{ username }}
             <span class="ms-1 username-edit-icon">
-                <fa-icon class="fa-2xs" [icon]="pencilIcon"></fa-icon>
+                <button class="btn" title="Edit username" (click)="startEditingUsername()">
+                    <fa-icon class="fa-lg" [icon]="pencilIcon"></fa-icon>
+                </button>
             </span>
         </h3>
     } @else {
