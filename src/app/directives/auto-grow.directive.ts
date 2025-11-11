@@ -13,8 +13,9 @@ export class AutoGrowDirective implements AfterViewInit {
     }
 
     ngAfterViewInit() {
-        this.adjust(); // Adjust height when initial text is loaded
+        setTimeout(() => this.adjust());
     }
+
 
     private adjust() {
         const textarea = this.el.nativeElement;
