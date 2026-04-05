@@ -1,4 +1,4 @@
-import {Component, ElementRef, Input, QueryList, ViewChild, ViewChildren} from '@angular/core';
+import {Component, ElementRef, Input, QueryList, signal, ViewChild, ViewChildren, WritableSignal} from '@angular/core';
 import {Project} from '../../../models/project';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {DatePipe} from '@angular/common';
@@ -7,7 +7,8 @@ import html2canvas from 'html2canvas';
 import JSZip from 'jszip';
 import {saveAs} from 'file-saver';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
-import {faCopy, faFileArrowDown, faFileZipper, faXmark} from '@fortawesome/free-solid-svg-icons';
+import {faCommentNodes, faCopy, faFileArrowDown, faFileZipper, faXmark} from '@fortawesome/free-solid-svg-icons';
+import {Task} from '../../../models/task';
 
 @Component({
     selector: 'app-preview-modal',
@@ -27,9 +28,13 @@ export class PreviewModalComponent {
     public fileDownloadIcon = faFileArrowDown;
     public fileZipIcon = faFileZipper;
     public copyIcon = faCopy;
+    public promptIcon = faCommentNodes;
 
-    public loading: boolean = false;
-    public loadingImageCopying: boolean = false;
+    public loading: WritableSignal<boolean> = signal(false);
+    public loadingImageCopying: WritableSignal<boolean> = signal(false);
+    public loadingPromptGeneration: WritableSignal<boolean> = signal(false);
+
+    public readonly currentDate: number = Date.now();
 
     public constructor(public activeModal: NgbActiveModal, private storageService: LocalStorageService) {
     }
@@ -39,7 +44,7 @@ export class PreviewModalComponent {
     }
 
     public getCurrentDate() {
-        return Date.now();
+        return this.currentDate;
     }
 
     public getProjectIdFromProjectName(projectName: string): string {
@@ -47,28 +52,28 @@ export class PreviewModalComponent {
     }
 
     public generateSingleImageAndDownload(): void {
-        this.loading = true;
+        this.loading.set(true);
         html2canvas(this.projectTableContainer.nativeElement).then(canvas => {
             const image = canvas.toDataURL('image/png');
             const link = document.createElement('a');
             link.href = image;
             link.download = `${this.generateImageName()}.png`;
             link.click();
-            this.loading = false;
+            this.loading.set(false);
 
             this.copyImageToClipboard(canvas);
         });
     }
 
     public generateSingleImageAndCopyToClipboard(): void {
-        this.loadingImageCopying = true;
+        this.loadingImageCopying.set(true);
         html2canvas(this.projectTableContainer.nativeElement).then(canvas => {
             this.copyImageToClipboard(canvas);
         });
     }
 
     private copyImageToClipboard(canvas: HTMLCanvasElement): void {
-        this.loadingImageCopying = false
+        this.loadingImageCopying.set(false);
         canvas.toBlob(blob => {
             if (blob != null) {
                 const item = new ClipboardItem({'image/png': blob});
@@ -107,7 +112,7 @@ export class PreviewModalComponent {
     }
 
     public async generateMultipleImageAndDownloadAsZip(): Promise<void> {
-        this.loading = true;
+        this.loading.set(true);
         const zip = new JSZip();
         const tableElements = this.projectTables.toArray();
 
@@ -121,7 +126,7 @@ export class PreviewModalComponent {
 
         zip.generateAsync({type: 'blob'}).then(content => {
             saveAs(content, `tasks_${this.getCurrentDateTimeStr()}.zip`);
-            this.loading = false;
+            this.loading.set(false);
         });
     }
 
@@ -131,5 +136,61 @@ export class PreviewModalComponent {
 
     public notNullAndNotEmpty(data: string): boolean {
         return data != null && data != '';
+    }
+
+    public copyPromptForReportGeneration(): void {
+        debugger;
+        this.loadingPromptGeneration.set(true);
+
+        let finishedProject: boolean = this.projectHasActiveTimes();
+        let promptText: string = this.generatePromptText(finishedProject);
+        this.copyPromptTextToClipboard(promptText);
+    }
+
+    private projectHasActiveTimes(): boolean {
+        for (let i = 0; i < this.projects.length; i++) {
+            let project: Project = this.projects[i];
+
+            for (let j = 0; j < project.tasks.length; j++) {
+                let task: Task = project.tasks[j];
+
+                if (task.activeHour !== "" || task.activeMinute !== "") {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    private generatePromptText(finishedProject: boolean): string {
+        let mainPrompt = `Based on the provided JSON data, generate a single comprehensive ${this.getTaskReportType(finishedProject)} report. Generate a markdown file`;
+        let template = "Use the provided template and generate the report in the same structure.";
+        let note = `Note: The username will be ${this.getUsername()} and the file name will be "${this.getTaskReportType(finishedProject)} Task Report (Projects name) (MMM dd, yyyy) - ${this.getUsername()}"`;
+
+        let jsonHeading = `// Json Data: `;
+        let jsonData = JSON.stringify(this.projects);
+        return `${mainPrompt}\n${note}\n${template}\n${jsonHeading}\n${jsonData}`;
+    }
+
+    private getTaskReportType(finishedProject: boolean): string {
+        if (finishedProject) {
+            return 'daily day ending';
+
+        } else {
+            return 'daily day beginning';
+
+        }
+    }
+
+    private copyPromptTextToClipboard(promptText: string) {
+        navigator.clipboard.writeText(promptText)
+            .then(() => {
+                this.loadingPromptGeneration.set(false);
+            })
+            .catch(err => {
+                console.error(err);
+                this.loadingPromptGeneration.set(false);
+            });
     }
 }

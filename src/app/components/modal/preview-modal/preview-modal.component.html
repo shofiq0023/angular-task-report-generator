@@ -39,9 +39,18 @@
 
     </div>
     <div class="modal-footer">
+        <button type="button" class="btn btn-success" (click)="copyPromptForReportGeneration()">
+            @if (loadingPromptGeneration()) {
+                <div class="spinner-border spinner-border-sm" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            }
+            <fa-icon [icon]="promptIcon" class="mx-1"></fa-icon>
+            Generate Prompt
+        </button>
         @if (projects.length > 1) {
             <button type="button" class="btn btn-success" (click)="generateMultipleImageAndDownloadAsZip()">
-                @if (loading) {
+                @if (loading()) {
                     <div class="spinner-border spinner-border-sm" role="status">
                         <span class="visually-hidden">Loading...</span>
                     </div>
@@ -51,7 +60,7 @@
             </button>
         } @else {
             <button type="button" class="btn btn-success" (click)="generateSingleImageAndCopyToClipboard()">
-                @if (loadingImageCopying) {
+                @if (loadingImageCopying()) {
                     <div class="spinner-border spinner-border-sm" role="status">
                         <span class="visually-hidden">Loading...</span>
                     </div>
@@ -60,7 +69,7 @@
                 Copy Image
             </button>
             <button type="button" class="btn btn-success" (click)="generateSingleImageAndDownload()">
-                @if (loading) {
+                @if (loading()) {
                     <div class="spinner-border spinner-border-sm" role="status">
                         <span class="visually-hidden">Loading...</span>
                     </div>
