@@ -1,4 +1,4 @@
-import { Directive, HostListener, ElementRef, AfterViewInit } from '@angular/core';
+import {AfterViewInit, Directive, ElementRef, HostListener} from '@angular/core';
 
 @Directive({
     selector: 'textarea[autoGrow]'

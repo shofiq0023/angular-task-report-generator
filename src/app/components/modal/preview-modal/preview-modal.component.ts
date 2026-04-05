@@ -134,12 +134,11 @@ export class PreviewModalComponent {
         return username.toLowerCase().replace(/ /g, "_");
     }
 
-    public notNullAndNotEmpty(data: string): boolean {
+    public notNullAndNotEmpty(data: string | number | null): boolean {
         return data != null && data != '';
     }
 
     public copyPromptForReportGeneration(): void {
-        debugger;
         this.loadingPromptGeneration.set(true);
 
         let finishedProject: boolean = this.projectHasActiveTimes();
@@ -154,7 +153,7 @@ export class PreviewModalComponent {
             for (let j = 0; j < project.tasks.length; j++) {
                 let task: Task = project.tasks[j];
 
-                if (task.activeHour !== "" || task.activeMinute !== "") {
+                if (this.taskHasActiveTimes(task)) {
                     return true;
                 }
             }
@@ -192,5 +191,9 @@ export class PreviewModalComponent {
                 console.error(err);
                 this.loadingPromptGeneration.set(false);
             });
+    }
+
+    private taskHasActiveTimes(task: Task) {
+        return task.activeMinute !== '' && task.activeMinute !== null || task.activeHour !== '' && task.activeHour !== null;
     }
 }
