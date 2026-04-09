@@ -174,10 +174,10 @@ export class PreviewModalComponent {
 
     private getTaskReportType(finishedProject: boolean): string {
         if (finishedProject) {
-            return 'daily day ending';
+            return 'Daily Day Ending';
 
         } else {
-            return 'daily day beginning';
+            return 'Daily Day Beginning';
 
         }
     }
