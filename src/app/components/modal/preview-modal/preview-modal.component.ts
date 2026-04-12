@@ -165,7 +165,7 @@ export class PreviewModalComponent {
     private generatePromptText(finishedProject: boolean): string {
         let mainPrompt = `Based on the provided JSON data, generate a single comprehensive ${this.getTaskReportType(finishedProject)} report. Generate a markdown file`;
         let template = "Use the provided template and generate the report in the same structure.";
-        let note = `Note: The username will be ${this.getUsername()} and the file name will be "${this.getTaskReportType(finishedProject)} Task Report (Projects name) (MMM dd, yyyy) - ${this.getUsername()}"`;
+        let note = `Note: The username will be ${this.getUsername()} and the file name (case sensitive) will be "${this.getTaskReportType(finishedProject)} Task Report (Projects name) (MMM dd, yyyy) - ${this.getUsername()}"`;
 
         let jsonHeading = `// Json Data: `;
         let jsonData = JSON.stringify(this.projects);
