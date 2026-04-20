@@ -4,6 +4,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {FontAwesomeModule, IconDefinition} from '@fortawesome/angular-fontawesome';
 import {faCircleCheck, faCircleXmark, faPencil} from '@fortawesome/free-solid-svg-icons';
 import {UsernameService} from '../../services/username.service';
+import {toast} from 'ngx-sonner';
 
 @Component({
     selector: 'app-username',
@@ -17,6 +18,7 @@ import {UsernameService} from '../../services/username.service';
     styleUrl: './username.component.css'
 })
 export class UsernameComponent implements OnInit {
+    protected readonly toast = toast;
     @ViewChild('usernameInput') usernameInputEl!: ElementRef<HTMLInputElement>;
 
     private defaultUsername: string = "Username";
@@ -58,12 +60,12 @@ export class UsernameComponent implements OnInit {
     public saveUsername(): void {
         let username = this.username;
         if (username === "") {
-            // TODO: show a warning toast message for empty username
+            toast.warning('Username cannot be empty!');
             return;
         }
         this.endEditingUsername();
         this.usernameService.saveName(this.username);
-        // TODO: show a success toast message for username saving operation
+        toast.success('Username saved!');
     }
 
 

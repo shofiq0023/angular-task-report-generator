@@ -22,14 +22,17 @@ import {LocalStorageService} from './services/local-storage.service';
 import {NgClass} from '@angular/common';
 import {UsernameComponent} from './components/username/username.component';
 import {AutoGrowDirective} from './directives/auto-grow.directive';
+import {NgxSonnerToaster, toast} from 'ngx-sonner';
 
 @Component({
     selector: 'app-root',
-    imports: [FontAwesomeModule, FormsModule, NgClass, UsernameComponent, AutoGrowDirective],
+    imports: [FontAwesomeModule, FormsModule, NgClass, UsernameComponent, AutoGrowDirective, NgxSonnerToaster],
     templateUrl: './app.component.html',
     styleUrl: './app.component.css'
 })
 export class AppComponent {
+    protected readonly toast = toast;
+
     // Const
     private PROJECT_KEY: string = 'projects';
     private USERNAME_KEY: string = 'username';
@@ -151,6 +154,7 @@ export class AppComponent {
         if (confirm('Are you sure you want to clear tasks?')) {
             this.storageService.removeItem(this.PROJECT_KEY);
             this.projects = [];
+            toast.success('All tasks have been cleared!');
         }
     }
 
@@ -158,6 +162,7 @@ export class AppComponent {
         if (confirm('Are you sure you want to clear all data?')) {
             this.storageService.clear();
             this.clearAllData();
+            toast.warning('All data has been cleared!');
         }
     }
 
@@ -170,6 +175,7 @@ export class AppComponent {
     public saveNameToLocalStorage(): void {
         if (this.username != '') {
             this.storageService.setItem(this.USERNAME_KEY, this.username);
+            toast.success('Username saved!');
         }
     }
 
@@ -177,6 +183,7 @@ export class AppComponent {
         if (this.projects.length > 0) {
             let jsonStr = JSON.stringify(this.projects);
             this.storageService.setItem(this.PROJECT_KEY, jsonStr);
+            toast.success('Task data saved!');
         }
     }
 
@@ -190,6 +197,7 @@ export class AppComponent {
             this.projects = JSON.parse(projectsJsonStr);
         } catch (error) {
             console.error("Error in getting projects from storage");
+            toast.error('Error in getting projects from storage!');
             this.addEmptyProject();
         }
     }
