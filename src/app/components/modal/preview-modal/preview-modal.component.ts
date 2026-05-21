@@ -166,6 +166,7 @@ export class PreviewModalComponent {
         let mainPrompt = `Based on the provided JSON data, generate a single comprehensive ${this.getTaskReportType(finishedProject)} report. Generate a markdown file`;
         let template = "Use the provided template and generate the report in the same structure.";
         let note = `Note: The username will be ${this.getUsername()} and the file name (case sensitive) will be "${this.getTaskReportType(finishedProject)} Task Report (Projects name) (MMM dd, yyyy) - ${this.getUsername()}"`;
+        note += '\nAlso, the do not include 1PM to 2PM in the work sessions. Because that is my break time.';
 
         let jsonHeading = `// Json Data: `;
         let jsonData = JSON.stringify(this.projects);
