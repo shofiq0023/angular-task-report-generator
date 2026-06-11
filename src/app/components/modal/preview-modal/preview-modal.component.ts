@@ -8,6 +8,7 @@ import JSZip from 'jszip';
 import {saveAs} from 'file-saver';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {faCommentNodes, faCopy, faFileArrowDown, faFileZipper, faXmark} from '@fortawesome/free-solid-svg-icons';
+import {toast} from 'ngx-sonner';
 import {Task} from '../../../models/task';
 
 @Component({
@@ -17,6 +18,8 @@ import {Task} from '../../../models/task';
     styleUrl: './preview-modal.component.css'
 })
 export class PreviewModalComponent {
+    protected readonly toast = toast;
+
     private USERNAME_KEY = 'username';
     @Input() projects!: Project[];
 
@@ -144,6 +147,7 @@ export class PreviewModalComponent {
         let finishedProject: boolean = this.projectHasActiveTimes();
         let promptText: string = this.generatePromptText(finishedProject);
         this.copyPromptTextToClipboard(promptText);
+        toast.info('Prompt copied to clipboard!');
     }
 
     private projectHasActiveTimes(): boolean {
