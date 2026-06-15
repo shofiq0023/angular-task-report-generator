@@ -8,7 +8,7 @@ import {
     faCirclePlus,
     faCircleXmark,
     faEye,
-    faFloppyDisk,
+    faFloppyDisk, faListCheck,
     faPencil,
     faTrash
 } from '@fortawesome/free-solid-svg-icons';
@@ -51,6 +51,7 @@ export class AppComponent {
     public broomIcon = faBroom;
     public checkIcon: IconDefinition = faCircleCheck;
     public crossIcon: IconDefinition = faCircleXmark;
+    public listIcon: IconDefinition = faListCheck;
 
     // Data
     public username: string = '';

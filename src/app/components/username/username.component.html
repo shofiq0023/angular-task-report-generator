@@ -1,28 +1,29 @@
-<div class="row">
+<div class="mb-1">
     @if (!usernameEditing) {
-        <h3 class="username" (click)="startEditingUsername()">
-            {{ username }}
-            <span class="ms-1 username-edit-icon">
-                <button class="btn" title="Edit username" (click)="startEditingUsername()">
-                    <fa-icon class="fa-lg" [icon]="pencilIcon"></fa-icon>
+        <div class="username-trigger d-inline-flex" (click)="startEditingUsername()">
+            <span class="username-name">{{ username }}</span>
+            <span class="username-edit-icon">
+                <button class="btn btn-sm text-secondary p-0" title="Edit username" (click)="startEditingUsername()">
+                    <fa-icon [icon]="pencilIcon"></fa-icon>
                 </button>
             </span>
-        </h3>
+        </div>
     } @else {
-        <form>
-            <div class="col-5 d-flex">
-                <input #usernameInput class="form-control username-input" type="text"
-                       name="username" placeholder="username.."
-                       [(ngModel)]="username" (blur)="saveUsername()">
-
-                <button class="btn text-success" title="Save" role="button" (click)="saveUsername()">
-                    <fa-icon class="fa-xl" [icon]="checkIcon"></fa-icon>
-                </button>
-                <button class="btn" title="Cancel" role="button" (click)="endEditingUsername()">
-                    <fa-icon class="fa-xl" [icon]="crossIcon"></fa-icon>
-                </button>
-            </div>
-        </form>
+        <div class="d-flex align-items-center gap-2" style="max-width: 380px;">
+            <input #usernameInput
+                   class="form-control username-input"
+                   type="text"
+                   name="username"
+                   placeholder="Your name…"
+                   [(ngModel)]="username"
+                   (blur)="saveUsername()">
+            <button class="btn btn-outline-success" title="Save" (click)="saveUsername()">
+                <fa-icon class="fa-lg" [icon]="checkIcon"></fa-icon>
+            </button>
+            <button class="btn btn-outline-secondary" title="Cancel" (click)="endEditingUsername()">
+                <fa-icon class="fa-lg" [icon]="crossIcon"></fa-icon>
+            </button>
+        </div>
     }
-    <h5 class="current-date">{{ currentDate | date:'dd/MM/yyyy' }}</h5>
+    <div class="current-date mt-1">{{ currentDate | date:'EEEE, d MMMM yyyy' }}</div>
 </div>

@@ -1,23 +1,43 @@
-.username {
-    transition: all 200ms ease-in-out;
+.username-trigger {
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: .4rem;
 }
 
-.username .username-edit-icon {
-    transition: all 200ms ease-in-out;
-    display: inline-block;
-    transform: translateY(10px);
+.username-name {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: #0F172A;
+    transition: color 150ms ease;
+    line-height: 1.2;
+}
+
+.username-trigger:hover .username-name {
+    color: #6366F1;
+}
+
+.username-edit-icon {
+    transition: opacity 150ms ease, transform 150ms ease;
     opacity: 0;
+    transform: translateY(4px);
 }
 
-.username:hover .username-edit-icon {
-    transform: translateY(0);
+.username-trigger:hover .username-edit-icon {
     opacity: 1;
+    transform: translateY(0);
 }
 
 .current-date {
-    color: #999999;
+    font-size: .8rem;
+    font-weight: 500;
+    color: #94A3B8;
+    letter-spacing: .02em;
 }
 
 .username-input {
-    font-size: 28px;
+    font-size: 1.3rem;
+    font-weight: 700;
+    border-color: #6366F1;
+    box-shadow: 0 0 0 3px rgba(99,102,241,.15);
 }

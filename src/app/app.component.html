@@ -1,138 +1,153 @@
 <ngx-sonner-toaster richColors closeButton/>
 
-<div class="main">
-    <div class="container-fluid">
+<div class="main pb-5 mb-5">
+
+    <!-- Page Header -->
+    <div class="page-header py-3 mb-4">
         <div class="container">
-            <h1 class="text-center mb-5">
-                Daily Task Status Generator
+            <h1 class="page-title mb-0">
+                <fa-icon [icon]="listIcon"></fa-icon> Daily Task Status Generator
             </h1>
+        </div>
+    </div>
 
-            <!-- Username -->
-            <div class="row">
-                <app-username></app-username>
-            </div>
+    <div class="container">
 
-            <hr class="mb-4">
+        <!-- Username -->
+        <div class="row mb-3">
+            <app-username></app-username>
+        </div>
 
-            <!-- Add more project button -->
-            <div class="pb-3">
-                <button class="btn btn-primary" (click)="addEmptyProject()">
-                    <fa-icon [icon]="addIcon"></fa-icon>
-                    Add a new project
-                </button>
-            </div>
+        <!-- Add project button -->
+        <div class="d-flex align-items-center justify-content-between mb-4">
+            <button class="btn btn-accent d-flex align-items-center gap-2" (click)="addEmptyProject()">
+                <fa-icon [icon]="addIcon"></fa-icon>
+                Add a new project
+            </button>
+        </div>
 
+        @for (project of projects; track project.name; let projectIndex = $index) {
 
-            @for (project of projects; track project.name; let projectIndex = $index) {
-                <!-- Project Row -->
-                <div class="row align-items-center">
-                    <div class="d-flex">
-                        @if (project.isEditing) {
-                            <form>
-                                <div class="d-flex">
-                                    <input #projectNameInput class="form-control project-name-input" type="text"
-                                           name="project-name" placeholder="Project name.."
-                                           [(ngModel)]="project.name" (blur)="saveData(projectIndex)">
+            <!-- Project Card -->
+            <div class="project-card p-4 mb-4">
 
-                                    <button class="btn text-success" title="Save" role="button" (click)="saveData(projectIndex)">
-                                        <fa-icon class="fa-xl" [icon]="checkIcon"></fa-icon>
-                                    </button>
-                                    <button class="btn" title="Cancel" role="button" (click)="endEditingProjectName(projectIndex)">
-                                        <fa-icon class="fa-xl" [icon]="crossIcon"></fa-icon>
-                                    </button>
-                                </div>
-                            </form>
-                        } @else {
-                            <div class="d-flex align-items-center project-name-container">
-                                <h1 class="project-name me-2" (click)="startEditingProjectName(projectIndex)">{{ project.name }}</h1>
-                                <span class="project-name-edit-icon" (click)="startEditingProjectName(projectIndex)">
-                                    <button class="btn" title="Edit project name">
-                                        <fa-icon class="fa-lg" [icon]="pencilIcon"></fa-icon>
-                                    </button>
-                                </span>
-                                <span class="project-delete-icon">
-                                    <button class="btn text-danger" title="Delete the project" (click)="removeProject(projectIndex)">
-                                        <fa-icon class="fa-lg" [icon]="trashIcon"></fa-icon>
-                                    </button>
-                                </span>
-                                <span class="project-task-clear-icon">
-                                    <button class="btn text-warning" title="Clear tasks" (click)="clearTaskOfProject(projectIndex)">
-                                        <fa-icon class="fa-lg" [icon]="broomIcon"></fa-icon>
-                                    </button>
-                                </span>
+                <!-- Project name row -->
+                <div class="mb-3">
+                    @if (project.isEditing) {
+                        <form>
+                            <div class="d-flex align-items-center gap-2">
+                                <input #projectNameInput
+                                       class="form-control project-name-input"
+                                       type="text"
+                                       name="project-name"
+                                       placeholder="Project name…"
+                                       [(ngModel)]="project.name"
+                                       (blur)="saveData(projectIndex)">
+                                <button class="btn btn-outline-success" title="Save" (click)="saveData(projectIndex)">
+                                    <fa-icon class="fa-lg" [icon]="checkIcon"></fa-icon>
+                                </button>
+                                <button class="btn btn-outline-secondary" title="Cancel" (click)="endEditingProjectName(projectIndex)">
+                                    <fa-icon class="fa-lg" [icon]="crossIcon"></fa-icon>
+                                </button>
                             </div>
-                        }
-                    </div>
+                        </form>
+                    } @else {
+                        <div class="d-flex align-items-center project-name-container gap-1">
+                            <h2 class="project-name mb-0 me-1" (click)="startEditingProjectName(projectIndex)">
+                                {{ project.name }}
+                            </h2>
+                            <span class="badge rounded-pill bg-indigo-subtle text-indigo ms-2"
+                                  style="background:#EEF2FF;color:#4F46E5;font-size:.75rem;">
+                                {{ project.tasks.length }} task{{ project.tasks.length !== 1 ? 's' : '' }}
+                            </span>
+                            <span class="project-name-edit-icon" (click)="startEditingProjectName(projectIndex)">
+                                <button class="btn btn-sm text-secondary" title="Edit project name">
+                                    <fa-icon [icon]="pencilIcon"></fa-icon>
+                                </button>
+                            </span>
+                            <span class="project-delete-icon">
+                                <button class="btn btn-sm text-danger" title="Delete project" (click)="removeProject(projectIndex)">
+                                    <fa-icon [icon]="trashIcon"></fa-icon>
+                                </button>
+                            </span>
+                            <span class="project-task-clear-icon">
+                                <button class="btn btn-sm text-warning" title="Clear tasks" (click)="clearTaskOfProject(projectIndex)">
+                                    <fa-icon [icon]="broomIcon"></fa-icon>
+                                </button>
+                            </span>
+                        </div>
+                    }
                 </div>
-                <hr class="pb-2">
 
-                <!-- Task Row headings -->
-                <div class="row align-items-center pb-3">
-                    <!-- Add more task button -->
+                <!-- Task header -->
+                <div class="row align-items-center task-header-row px-2 py-2 mb-2">
                     <div class="col-1 text-center">
-                        <button class="btn text-success" (click)="addEmptyTask(projectIndex)">
+                        <button class="btn btn-sm text-success p-0" title="Add task" (click)="addEmptyTask(projectIndex)">
                             <fa-icon class="fa-xl" [icon]="addIcon"></fa-icon>
                         </button>
                     </div>
                     <div class="col-1">
-                        <strong>SL</strong>
+                        <span class="text-uppercase fw-semibold text-secondary" style="font-size:.72rem;letter-spacing:.06em;">SL</span>
                     </div>
                     <div class="col-3">
-                        <strong>Task Name</strong>
+                        <span class="text-uppercase fw-semibold text-secondary" style="font-size:.72rem;letter-spacing:.06em;">Task Name</span>
                     </div>
                     <div class="col-2 text-center">
-                        <strong>Estimated Time</strong>
+                        <span class="text-uppercase fw-semibold text-secondary" style="font-size:.72rem;letter-spacing:.06em;">Est. Time</span>
                     </div>
                     <div class="col-2 text-center">
-                        <strong>Active Time</strong>
+                        <span class="text-uppercase fw-semibold text-secondary" style="font-size:.72rem;letter-spacing:.06em;">Active Time</span>
                     </div>
                     <div class="col-1">
-                        <strong>Status</strong>
+                        <span class="text-uppercase fw-semibold text-secondary" style="font-size:.72rem;letter-spacing:.06em;">Status</span>
                     </div>
                     <div class="col-2">
-                        <strong>Remarks</strong>
+                        <span class="text-uppercase fw-semibold text-secondary" style="font-size:.72rem;letter-spacing:.06em;">Remarks</span>
                     </div>
                 </div>
+
+                <!-- Task rows -->
                 @for (task of project.tasks; track task.taskName; let taskIndex = $index) {
-                    <!-- Task Row body -->
-                    <div class="row align-items-center pb-4">
-                        <!-- Remove task button -->
-                        <div class="col-1 text-center d-flex justify-content-center">
-                            <button class="btn"
-                                    [ngClass]="{'opacity-0': taskIndex < 1}"
+                    <div class="row align-items-center task-row px-2 py-2">
+
+                        <!-- Controls -->
+                        <div class="col-1 d-flex justify-content-center align-items-center gap-0">
+                            <button class="btn btn-sm p-0 lh-1"
+                                    [ngClass]="{'opacity-0 pe-none': taskIndex < 1}"
                                     (click)="moveTaskUpward(projectIndex, taskIndex)">
-                                <fa-icon [icon]="caretUpIcon"></fa-icon>
+                                <fa-icon [icon]="caretUpIcon" class="text-secondary"></fa-icon>
                             </button>
-
-                            <button class="btn text-danger" (click)="removeTask(projectIndex, taskIndex)">
-                                <fa-icon class="fa-xl" [icon]="minusIcon"></fa-icon>
+                            <button class="btn btn-sm p-1 text-danger" (click)="removeTask(projectIndex, taskIndex)">
+                                <fa-icon class="fa-lg" [icon]="minusIcon"></fa-icon>
                             </button>
-
-                            <button class="btn"
-                                    [ngClass]="{'opacity-0': taskIndex == project.tasks.length - 1}"
+                            <button class="btn btn-sm p-0 lh-1"
+                                    [ngClass]="{'opacity-0 pe-none': taskIndex == project.tasks.length - 1}"
                                     (click)="moveTaskDownward(projectIndex, taskIndex)">
-                                <fa-icon [icon]="caretDownIcon"></fa-icon>
+                                <fa-icon [icon]="caretDownIcon" class="text-secondary"></fa-icon>
                             </button>
                         </div>
-                        <div class="col-1">
+
+                        <!-- SL -->
+                        <div class="col-1 text-secondary fw-semibold" style="font-size:.9rem;">
                             {{ taskIndex + 1 }}
                         </div>
 
                         <!-- Task Name -->
                         <div class="col-3">
-                            <textarea class="form-control" rows="1" [(ngModel)]="task.taskName" autoGrow></textarea>
+                            <textarea class="form-control form-control-sm" rows="1"
+                                      [(ngModel)]="task.taskName" autoGrow></textarea>
                         </div>
 
                         <!-- Estimated Time -->
                         <div class="col-1">
-                            <div class="input-group">
+                            <div class="input-group input-group-sm">
                                 <input type="number" class="form-control" min="0" max="60"
                                        [(ngModel)]="task.estimatedHour">
                                 <span class="input-group-text">H</span>
                             </div>
                         </div>
                         <div class="col-1">
-                            <div class="input-group">
+                            <div class="input-group input-group-sm">
                                 <input type="number" class="form-control" min="0" max="60"
                                        [(ngModel)]="task.estimatedMinute">
                                 <span class="input-group-text">M</span>
@@ -141,14 +156,14 @@
 
                         <!-- Active Time -->
                         <div class="col-1">
-                            <div class="input-group">
+                            <div class="input-group input-group-sm">
                                 <input type="number" class="form-control" min="0" max="60"
                                        [(ngModel)]="task.activeHour">
                                 <span class="input-group-text">H</span>
                             </div>
                         </div>
                         <div class="col-1">
-                            <div class="input-group">
+                            <div class="input-group input-group-sm">
                                 <input type="number" class="form-control" min="0" max="60"
                                        [(ngModel)]="task.activeMinute">
                                 <span class="input-group-text">M</span>
@@ -157,7 +172,7 @@
 
                         <!-- Status -->
                         <div class="col-1">
-                            <select class="form-control" [(ngModel)]="task.status">
+                            <select class="form-select form-select-sm" [(ngModel)]="task.status">
                                 <option value="" selected>Select</option>
                                 <option value="Working">Working</option>
                                 <option value="In Progress">In Progress</option>
@@ -168,41 +183,39 @@
 
                         <!-- Remarks -->
                         <div class="col-2">
-                            <textarea class="form-control" rows="1" [(ngModel)]="task.remarks" autoGrow></textarea>
+                            <textarea class="form-control form-control-sm" rows="1"
+                                      [(ngModel)]="task.remarks" autoGrow></textarea>
                         </div>
                     </div>
                 }
-                <hr class="pb-5">
-            }
 
-        </div>
-    </div>
+            </div><!-- /project-card -->
+
+        }
+
+    </div><!-- /container -->
 
     <footer>
-        <!-- Submit Button -->
-        <div class="submit-div bg-secondary-subtle">
+        <div class="submit-div">
             <div class="container">
-                <div class="row text-center ">
-                    <div class="col-12 my-3">
-                        <button class="btn btn-primary px-5" (click)="openPreviewModal()">
-                            <fa-icon [icon]="viewIcon" class="me-1"></fa-icon>
-                            Save & Preview
+                <div class="row">
+                    <div class="col-12 py-3 d-flex justify-content-center align-items-center gap-2 flex-wrap">
+                        <button class="btn btn-accent px-4" (click)="openPreviewModal()">
+                            <fa-icon [icon]="viewIcon" class="me-2"></fa-icon>Save & Preview
                         </button>
-                        <button class="btn btn-success px-5 mx-3" (click)="saveData()">
-                            <fa-icon [icon]="saveIcon" class="me-1"></fa-icon>
-                            Save
+                        <button class="btn btn-success px-4" (click)="saveData()">
+                            <fa-icon [icon]="saveIcon" class="me-2"></fa-icon>Save
                         </button>
-                        <button class="btn btn-danger px-5 mx-3" (click)="clearTasks()">
-                            <fa-icon [icon]="clearIcon" class="me-1"></fa-icon>
-                            Clear Tasks
+                        <button class="btn btn-outline-warning px-4" (click)="clearTasks()">
+                            <fa-icon [icon]="clearIcon" class="me-2"></fa-icon>Clear Tasks
                         </button>
-                        <button class="btn btn-danger px-5" (click)="clearAllStorageData()">
-                            <fa-icon [icon]="deleteIcon" class="me-1"></fa-icon>
-                            Clear All Data
+                        <button class="btn btn-outline-danger px-4" (click)="clearAllStorageData()">
+                            <fa-icon [icon]="deleteIcon" class="me-2"></fa-icon>Clear All Data
                         </button>
                     </div>
                 </div>
             </div>
         </div>
     </footer>
+
 </div>

@@ -1,48 +1,122 @@
-hr {
-    border-top: 1px solid #c3c3c3;
+/* -- Page shell -- */
+body {
+    background-color: #F1F5F9;
 }
 
+/* -- Page header -- */
+.page-header {
+    background: #ffffff;
+    border-bottom: 1px solid #E2E8F0;
+}
+
+/* -- Number spinner removal -- */
+input[type="number"] {
+    appearance: textfield;
+}
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* -- Project card -- */
+.project-card {
+    background: #ffffff;
+    border: 1px solid #E2E8F0;
+    border-left: 4px solid #6366F1;
+    border-radius: 10px;
+    box-shadow: 0 1px 4px rgba(0,0,0,.06);
+}
+
+/* -- Project name hover actions -- */
+.project-name {
+    transition: color 150ms ease;
+    cursor: pointer;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #0F172A;
+}
+
+.project-name:hover {
+    color: #6366F1;
+}
+
+.project-name-container .project-name-edit-icon,
+.project-name-container .project-delete-icon,
+.project-name-container .project-task-clear-icon {
+    transition: opacity 150ms ease, transform 150ms ease;
+    display: inline-block;
+    transform: translateY(8px);
+    opacity: 0;
+}
+
+.project-name-container .project-delete-icon    { transition-delay: 40ms; }
+.project-name-container .project-task-clear-icon { transition-delay: 80ms; }
+
+.project-name-container:hover .project-name-edit-icon,
+.project-name-container:hover .project-delete-icon,
+.project-name-container:hover .project-task-clear-icon {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+/* -- Task header row -- */
+.task-header-row {
+    background-color: #F8FAFC;
+    border-radius: 6px;
+    border: 1px solid #E2E8F0;
+}
+
+/* -- Task body row -- */
+.task-row {
+    border-bottom: 1px solid #F1F5F9;
+    transition: background-color 120ms ease;
+}
+
+.task-row:last-child {
+    border-bottom: none;
+}
+
+.task-row:hover {
+    background-color: #F8FAFC;
+}
+
+/* -- Project name edit input -- */
+.project-name-input {
+    font-size: 1.4rem;
+    font-weight: 700;
+    border-color: #6366F1;
+    box-shadow: 0 0 0 3px rgba(99,102,241,.15);
+}
+
+/* -- Footer bar -- */
 .submit-div {
     position: fixed;
     bottom: 0;
     left: 0;
     width: 100%;
+    background: #ffffff;
+    border-top: 1px solid #E2E8F0;
+    box-shadow: 0 -2px 12px rgba(0,0,0,.07);
 }
 
-input[type="number"] {
-    appearance: textfield; /* Removes arrows in Firefox */
+/* -- Page title -- */
+.page-title {
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: #0F172A;
 }
 
-input[type="number"]::-webkit-inner-spin-button,
-input[type="number"]::-webkit-outer-spin-button {
-    -webkit-appearance: none; /* Removes arrows in Chrome/Safari */
-    margin: 0;
+/* -- Accent button override -- */
+.btn-accent {
+    background-color: #6366F1;
+    border-color: #6366F1;
+    color: #ffffff;
 }
 
-.project-name {
-    transition: all 200ms ease-in-out;
-}
-
-.project-name-container .project-name-edit-icon, .project-name-container .project-delete-icon, .project-name-container .project-task-clear-icon  {
-    transition: all 200ms ease-in-out;
-    display: inline-block;
-    transform: translateY(10px);
-    opacity: 0;
-}
-
-.project-name-container .project-delete-icon {
-    transition-delay: 50ms;
-}
-
-.project-name-container .project-task-clear-icon {
-    transition-delay: 100ms;
-}
-
-.project-name-container:hover .project-name-edit-icon, .project-name-container:hover .project-delete-icon, .project-name-container:hover .project-task-clear-icon {
-    transform: translateY(0);
-    opacity: 1;
-}
-
-.project-name-input {
-    font-size: 28px;
+.btn-accent:hover {
+    background-color: #4F46E5;
+    border-color: #4F46E5;
+    color: #ffffff;
 }
