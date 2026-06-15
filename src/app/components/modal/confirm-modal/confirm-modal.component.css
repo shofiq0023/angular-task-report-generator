@@ -1,0 +1,24 @@
+.confirm-icon-wrap {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: .9rem;
+    flex-shrink: 0;
+}
+
+.confirm-icon-wrap.danger {
+    background-color: #FEE2E2;
+    color: #DC2626;
+}
+
+.confirm-icon-wrap.warning {
+    background-color: #FEF9C3;
+    color: #CA8A04;
+}
+
+.modal-title {
+    color: #0F172A;
+}

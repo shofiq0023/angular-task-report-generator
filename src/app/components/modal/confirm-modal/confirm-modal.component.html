@@ -1,0 +1,27 @@
+<div class="modal-header border-0 pb-0">
+    <div class="d-flex align-items-center gap-2">
+        <span class="confirm-icon-wrap" [class.danger]="confirmStyle === 'danger'" [class.warning]="confirmStyle === 'warning'">
+            <fa-icon [icon]="warningIcon"></fa-icon>
+        </span>
+        <h5 class="modal-title fw-semibold mb-0">{{ title }}</h5>
+    </div>
+    <button type="button" class="btn-close" (click)="activeModal.dismiss()"></button>
+</div>
+
+<div class="modal-body pt-2 pb-1">
+    <p class="text-secondary mb-0" style="padding-left: 2.4rem;">{{ message }}</p>
+</div>
+
+<div class="modal-footer border-0 pt-2 gap-2">
+    <button type="button" class="btn btn-light px-4" (click)="activeModal.dismiss()">
+        Cancel
+    </button>
+    <button type="button"
+            class="btn px-4"
+            [class.btn-danger]="confirmStyle === 'danger'"
+            [class.btn-warning]="confirmStyle === 'warning'"
+            (click)="activeModal.close(true)"
+            ngbAutofocus>
+        {{ confirmLabel }}
+    </button>
+</div>

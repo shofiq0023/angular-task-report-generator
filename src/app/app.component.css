@@ -50,7 +50,7 @@ input[type="number"]::-webkit-outer-spin-button {
     opacity: 0;
 }
 
-.project-name-container .project-delete-icon    { transition-delay: 40ms; }
+.project-name-container .project-delete-icon     { transition-delay: 40ms; }
 .project-name-container .project-task-clear-icon { transition-delay: 80ms; }
 
 .project-name-container:hover .project-name-edit-icon,
@@ -81,6 +81,27 @@ input[type="number"]::-webkit-outer-spin-button {
     background-color: #F8FAFC;
 }
 
+/* -- Task move animations -- */
+@keyframes slideUp {
+    0%   { transform: translateY(0);    opacity: 1; }
+    50%  { transform: translateY(-50%); opacity: 0.4; }
+    100% { transform: translateY(0);    opacity: 1; }
+}
+
+@keyframes slideDown {
+    0%   { transform: translateY(0);   opacity: 1; }
+    50%  { transform: translateY(50%); opacity: 0.4; }
+    100% { transform: translateY(0);   opacity: 1; }
+}
+
+.task-slide-up {
+    animation: slideUp 350ms ease-in-out forwards;
+}
+
+.task-slide-down {
+    animation: slideDown 350ms ease-in-out forwards;
+}
+
 /* -- Project name edit input -- */
 .project-name-input {
     font-size: 1.4rem;
@@ -108,7 +129,7 @@ input[type="number"]::-webkit-outer-spin-button {
     color: #0F172A;
 }
 
-/* -- Accent button override -- */
+/* -- Accent button -- */
 .btn-accent {
     background-color: #6366F1;
     border-color: #6366F1;
