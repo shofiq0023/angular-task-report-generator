@@ -272,4 +272,25 @@ export class AppComponent {
         const [task] = tasks.splice(fromIndex, 1);
         tasks.splice(toIndex, 0, task);
     }
+
+    private sumTime(tasks: Task[], hourKey: keyof Task, minuteKey: keyof Task): { hours: number; minutes: number } {
+        let totalMinutes = 0;
+        for (const task of tasks) {
+            const hours = Number(task[hourKey]) || 0;
+            const minutes = Number(task[minuteKey]) || 0;
+            totalMinutes += hours * 60 + minutes;
+        }
+        return { hours: Math.floor(totalMinutes / 60), minutes: totalMinutes % 60 };
+    }
+
+    public getProjectTotals(projectIndex: number): {
+        estimated: { hours: number; minutes: number };
+        active: { hours: number; minutes: number };
+    } {
+        const tasks = this.projects[projectIndex].tasks;
+        return {
+            estimated: this.sumTime(tasks, 'estimatedHour', 'estimatedMinute'),
+            active: this.sumTime(tasks, 'activeHour', 'activeMinute')
+        };
+    }
 }

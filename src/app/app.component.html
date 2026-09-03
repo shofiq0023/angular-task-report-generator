@@ -86,10 +86,8 @@
                             <fa-icon class="fa-xl" [icon]="addIcon"></fa-icon>
                         </button>
                     </div>
-                    <div class="col-1">
-                        <span class="text-uppercase fw-semibold text-secondary" style="font-size:.72rem;letter-spacing:.06em;">SL</span>
-                    </div>
                     <div class="col-3">
+                        <span class="text-uppercase fw-semibold text-secondary me-4" style="font-size:.72rem;letter-spacing:.06em;">SL</span>
                         <span class="text-uppercase fw-semibold text-secondary" style="font-size:.72rem;letter-spacing:.06em;">Task Name</span>
                     </div>
                     <div class="col-2 text-center">
@@ -98,7 +96,7 @@
                     <div class="col-2 text-center">
                         <span class="text-uppercase fw-semibold text-secondary" style="font-size:.72rem;letter-spacing:.06em;">Active Time</span>
                     </div>
-                    <div class="col-1">
+                    <div class="col-2">
                         <span class="text-uppercase fw-semibold text-secondary" style="font-size:.72rem;letter-spacing:.06em;">Status</span>
                     </div>
                     <div class="col-2">
@@ -131,13 +129,9 @@
                             </button>
                         </div>
 
-                        <!-- SL -->
-                        <div class="col-1 text-secondary fw-semibold" style="font-size:.9rem;">
-                            {{ taskIndex + 1 }}
-                        </div>
-
-                        <!-- Task Name -->
-                        <div class="col-3">
+                        <!-- SL & Task Name -->
+                        <div class="col-3 d-flex align-items-center">
+                            <span class="text-secondary fw-semibold me-4" style="font-size:.9rem;">{{ taskIndex + 1 }}</span>
                             <textarea class="form-control form-control-sm" rows="1"
                                       [(ngModel)]="task.taskName" autoGrow></textarea>
                         </div>
@@ -175,7 +169,7 @@
                         </div>
 
                         <!-- Status -->
-                        <div class="col-1">
+                        <div class="col-2">
                             <select class="form-select form-select-sm" [(ngModel)]="task.status">
                                 <option value="" selected>Select</option>
                                 <option value="Working">Working</option>
@@ -189,6 +183,30 @@
                         <div class="col-2">
                             <textarea class="form-control form-control-sm" rows="1"
                                       [(ngModel)]="task.remarks" autoGrow></textarea>
+                        </div>
+                    </div>
+                }
+
+                <!-- Calculates the total estimated and active time tasks -->
+                @if (getProjectTotals(projectIndex); as totals) {
+                    <div class="px-2 pt-2 mt-1 border-top">
+                        <div class="d-flex align-items-center">
+                            <span class="text-secondary fw-semibold me-2">Estimated time:</span>
+                            <span class="fw-semibold"
+                                  [ngClass]="{
+                                    'text-success': totals.estimated.hours >= 8,
+                                    'text-warning': totals.estimated.hours > 6 && totals.estimated.hours < 8,
+                                    'text-danger': totals.estimated.hours <= 6,
+                                  }">{{ totals.estimated.hours }}h {{ totals.estimated.minutes }}m</span>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <span class="text-secondary fw-semibold me-2">Active time:</span>
+                            <span class="fw-semibold"
+                                  [ngClass]="{
+                                    'text-success': totals.active.hours >= 8,
+                                    'text-warning': totals.active.hours > 6 && totals.active.hours < 8,
+                                    'text-danger': totals.active.hours <= 6,
+                                  }">{{ totals.active.hours }}h {{ totals.active.minutes }}m</span>
                         </div>
                     </div>
                 }
